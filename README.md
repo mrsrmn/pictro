@@ -1,3 +1,3 @@
 # scribble
 
-Share drawings with everyone you love.
+Connect with loved ones through art, without leaving your homescreen.
