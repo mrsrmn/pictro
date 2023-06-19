@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:scribble/pages/register.dart';
 import 'package:scribble/utils/constants.dart';
+import 'package:scribble/widgets/custom_button.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -69,29 +70,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                     textAlign: TextAlign.center,
                   ),
                 ),
-                TextButton(
+                CustomButton(
                   onPressed: () => Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => const Register()
+                        builder: (BuildContext context) => Register()
                     )
                   ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.purple.shade500),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      )
-                    )
-                  ),
-                  child: const Text(
-                    "Get started",
-                    style: TextStyle(
-                      fontFamily: geologicaMedium,
-                      fontSize: 19,
-                      color: Colors.white,
-                    )
-                  )
+                  text: "Get started",
+                  backgroundColor: Colors.purple.shade500
                 )
               ],
             ),

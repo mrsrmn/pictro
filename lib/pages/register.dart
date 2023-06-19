@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:scribble/widgets/custom_button.dart';
 
-import 'package:scribble/widgets/custom_text_field.dart';
+import 'package:scribble/widgets/phone_field.dart';
+import 'package:scribble/utils/region.dart';
 
 class Register extends StatelessWidget {
-  const Register({super.key});
+  Register({super.key});
+  final TextEditingController _controller = TextEditingController();
+  final region = Region();
 
   @override
   Widget build(BuildContext context) {
@@ -11,16 +15,21 @@ class Register extends StatelessWidget {
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(15),
           color: Colors.black87,
-          child: const SafeArea(
+          child: SafeArea(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("E-mail", style: TextStyle(color: Colors.white, fontSize: 25)),
-                CustomTextField(
-                  hintText: "steve@apple.com",
-                  keyboardType: TextInputType.emailAddress,
+                const Text("Phone Number", style: TextStyle(color: Colors.white, fontSize: 23), textAlign: TextAlign.center),
+                const SizedBox(height: 10),
+                PhoneField(controller: _controller),
+                const SizedBox(height: 10),
+                CustomButton(
+                  onPressed: () {},
+                  text: "Register",
+                  backgroundColor: Colors.purple.shade500
                 )
               ],
             ),
