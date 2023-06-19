@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:scribble/pages/register.dart';
+import 'package:scribble/utils/constants.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -40,36 +43,39 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
             opacity: animation,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ShaderMask(
-                      blendMode: BlendMode.srcIn,
-                      shaderCallback: (bounds) => gradient.createShader(
-                        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-                      ),
-                      child: const Text(
-                        "Scribble",
-                        style: TextStyle(
-                          fontFamily: "Geologica-Medium",
-                          fontSize: 40,
-                        )
-                      ),
-                    )
-                  ]
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: ShaderMask(
+                    blendMode: BlendMode.srcIn,
+                    shaderCallback: (bounds) => gradient.createShader(
+                      Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                    ),
+                    child: const Text(
+                      "Scribble",
+                      style: TextStyle(
+                        fontFamily: geologicaMedium,
+                        fontSize: 40,
+                      )
+                    ),
+                  ),
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, bottom: 15),
                   child: Text(
                     "Connect with loved ones through art, without leaving your homescreen.",
-                    style: TextStyle(fontFamily: "Geologica-Medium", fontSize: 20, color: Colors.white70),
+                    style: TextStyle(fontFamily: geologicaMedium, fontSize: 20, color: Colors.white70),
                     textAlign: TextAlign.center,
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const Register()
+                    )
+                  ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.purple.shade500),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -81,7 +87,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                   child: const Text(
                     "Get started",
                     style: TextStyle(
-                      fontFamily: "Geologica-Medium",
+                      fontFamily: geologicaMedium,
                       fontSize: 19,
                       color: Colors.white,
                     )
