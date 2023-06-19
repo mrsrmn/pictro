@@ -6,7 +6,28 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.deepPurple,
+              Colors.purpleAccent,
+            ],
+          )
+        ),
+        child: const SafeArea(
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: Icon(Icons.brush_rounded, size: 100, color: Colors.black87),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
