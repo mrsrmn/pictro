@@ -3,8 +3,17 @@ import 'package:flutter/services.dart';
 
 import 'package:scribble/pages/home.dart';
 import 'package:scribble/utils/constants.dart';
+import 'package:scribble/firebase_options.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarBrightness: Brightness.dark,
     statusBarIconBrightness:Brightness.dark ,
