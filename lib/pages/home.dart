@@ -45,7 +45,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.brush_rounded, size: 45, color: Colors.white),
                     ShaderMask(
                       blendMode: BlendMode.srcIn,
                       shaderCallback: (bounds) => gradient.createShader(
@@ -64,7 +63,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                 const Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, bottom: 15),
                   child: Text(
-                    "Connect through art, without leaving your homescreen.",
+                    "Connect with loved ones through art, without leaving your homescreen.",
                     style: TextStyle(fontFamily: "Geologica-Medium", fontSize: 20, color: Colors.white70),
                     textAlign: TextAlign.center,
                   ),
