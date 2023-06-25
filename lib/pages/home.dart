@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:scribble/pages/register.dart';
+import 'package:scribble/pages/register/register.dart';
 import 'package:scribble/utils/constants.dart';
 import 'package:scribble/widgets/custom_button.dart';
 

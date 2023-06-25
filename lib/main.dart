@@ -4,11 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:scribble/pages/home.dart';
 import 'package:scribble/utils/constants.dart';
 import 'package:scribble/firebase_options.dart';
+import 'package:scribble/injection_container.dart' as sl;
 
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Injection Container
+  await sl.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

@@ -13,11 +13,13 @@ class PhoneField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String dialCode = region.getDialCode(context);
+    controller.text = dialCode;
+
     return CustomTextField(
       controller: controller,
-      hintText: "+1",
+      hintText: dialCode,
       keyboardType: TextInputType.phone,
-      initialValue: region.getDialCode(context),
       inputFormatters: [
         PhoneInputFormatter(allowEndlessPhone: false)
       ],

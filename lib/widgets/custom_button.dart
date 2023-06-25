@@ -5,12 +5,14 @@ import 'package:scribble/utils/constants.dart';
 class CustomButton extends StatelessWidget {
   final Function() onPressed;
   final Color backgroundColor;
-  final String text;
+  final String? text;
+  final Widget? child;
 
   const CustomButton({
     super.key,
+    this.text,
+    this.child,
     required this.onPressed,
-    required this.text,
     required this.backgroundColor
   });
 
@@ -26,14 +28,22 @@ class CustomButton extends StatelessWidget {
             )
         )
       ),
-      child: Text(
-        text,
+      child: buildChild()
+    );
+  }
+
+  Widget buildChild() {
+    if (child != null) {
+      return child!;
+    } else {
+      return Text(
+        text!,
         style: const TextStyle(
           fontFamily: geologicaMedium,
           fontSize: 19,
           color: Colors.white,
         )
-      )
-    );
+      );
+    }
   }
 }
