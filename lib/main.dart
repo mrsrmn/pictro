@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:scribble/pages/home.dart';
+import 'package:scribble/utils/auth.dart';
 import 'package:scribble/utils/constants.dart';
 import 'package:scribble/firebase_options.dart';
 import 'package:scribble/injection_container.dart' as sl;
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +20,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  Get.put(Authentication());
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarBrightness: Brightness.dark,
-    statusBarIconBrightness:Brightness.dark ,
+    statusBarIconBrightness: Brightness.dark,
   ));
 
   runApp(const MyApp());
@@ -31,7 +35,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: "Scribble",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:scribble/pages/register/sms_code_page.dart';
 
 import 'package:scribble/widgets/custom_button.dart';
 import 'package:scribble/widgets/phone_field.dart';
@@ -18,7 +20,6 @@ class Register extends StatelessWidget {
 
   final TextEditingController _controller = TextEditingController();
   final Region region = Region();
-  final Authentication auth = Authentication();
   final RegisterBloc bloc = sl<RegisterBloc>();
 
   @override
@@ -57,7 +58,10 @@ class Register extends StatelessWidget {
                           Utils.alertPopup(context, "Please enter a valid phone number!");
                         });
                       } else if (state is RegisterPhoneValid) {
-                        auth.register(_controller.text);
+                        Authentication.instance.sendSMS(_controller.text);
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Get.to(() => SmsCodePage());
+                        });
                       }
 
                       return const Text(

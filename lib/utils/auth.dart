@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
-class Authentication {
+class Authentication extends GetxController {
+  static Authentication get instance => Get.find();
+  var verificationId = "".obs;
+
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  void register(String phoneNumber) async {
+  void sendSMS(String phoneNumber) async {
     await auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) {},
@@ -16,16 +20,18 @@ class Authentication {
         }
       },
       codeSent: (String verificationId, int? resendToken) async {
-        print("hkk");
-        String smsCode = 'xxxx';
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(
-            verificationId: verificationId,
-            smsCode: smsCode
-        );
-
-        await auth.signInWithCredential(credential);
+        this.verificationId.value = verificationId;
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
+  }
+
+  Future<bool> verifyOTP(String smsCode) async {
+    UserCredential credential = await auth.signInWithCredential(PhoneAuthProvider.credential(
+        verificationId: verificationId.value,
+        smsCode: smsCode
+    ));
+
+    return credential.user != null;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import 'package:scribble/pages/register/register.dart';
 import 'package:scribble/utils/constants.dart';
@@ -71,12 +72,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                   ),
                 ),
                 CustomButton(
-                  onPressed: () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => Register()
-                    )
-                  ),
+                  onPressed: () => Get.to(() => Register()),
                   text: "Get started",
                   backgroundColor: Colors.purple.shade500
                 )
