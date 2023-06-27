@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:scribble/utils/auth.dart';
 import 'package:scribble/widgets/custom_button.dart';
-
 import 'package:scribble/widgets/custom_text_field.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class SmsCodePage extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
@@ -28,7 +30,20 @@ class SmsCodePage extends StatelessWidget {
                   hintText: "Code",
                   controller: controller,
                   keyboardType: TextInputType.number,
-                  maxLength: 6,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(6),
+                  ],
+                  counter: Countdown(
+                    seconds: 120,
+                    build: (_, double time) {
+                      return Text(
+                        time.toInt().toString(),
+                        style: const TextStyle(
+                          color: Colors.white
+                        ),
+                      );
+                    },
+                  ),
                 ),
                 const SizedBox(height: 10),
                 CustomButton(

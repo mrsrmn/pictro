@@ -58,8 +58,8 @@ class Register extends StatelessWidget {
                           Utils.alertPopup(context, "Please enter a valid phone number!");
                         });
                       } else if (state is RegisterPhoneValid) {
-                        Authentication.instance.sendSMS(_controller.text);
                         WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Authentication.instance.sendSMS(_controller.text);
                           Get.to(() => SmsCodePage());
                         });
                       }
