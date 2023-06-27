@@ -65,7 +65,7 @@ class Register extends StatelessWidget {
                       }
 
                       return const Text(
-                        "Register",
+                        "Register / Sign In",
                         style: TextStyle(
                           fontFamily: geologicaMedium,
                           fontSize: 19,

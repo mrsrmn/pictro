@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 import 'package:scribble/utils/auth.dart';
 import 'package:scribble/widgets/custom_button.dart';
@@ -47,8 +48,13 @@ class SmsCodePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 CustomButton(
-                  onPressed: () {
-                    Authentication.instance.verifyOTP(controller.text);
+                  onPressed: () async {
+                    bool verified = await Authentication.instance.verifyOTP(controller.text);
+                    if (verified) {
+                      Get.snackbar("Success!", "You have been signed in.", colorText: Colors.white);
+                    } else {
+                      Get.snackbar("We couldn't sign you in!", "Please contact the developers.", colorText: Colors.white);
+                    }
                   },
                   backgroundColor: Colors.purple.shade500,
                   text: "Continue",
