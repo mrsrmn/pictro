@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 import 'package:scribble/utils/auth.dart';
 import 'package:scribble/widgets/custom_button.dart';
 import 'package:scribble/widgets/custom_text_field.dart';
+import 'package:scribble/pages/home.dart';
+
 import 'package:timer_count_down/timer_count_down.dart';
+import 'package:get/get.dart';
 
 class SmsCodePage extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
@@ -43,6 +45,17 @@ class SmsCodePage extends StatelessWidget {
                           color: Colors.white
                         ),
                       );
+                    },
+                    onFinished: () {
+                      Get.snackbar(
+                        "Timed out!",
+                        "You have been timed out.",
+                        colorText: Colors.white,
+                        icon: const Icon(Icons.timer_outlined, color: Colors.red),
+                        shouldIconPulse: false,
+                        duration: const Duration(seconds: 5)
+                      );
+                      Get.to(() => const Home());
                     },
                   ),
                 ),
