@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:scribble/pages/register/sms_code_page.dart';
 
+import 'package:scribble/pages/register/sms_code_page.dart';
 import 'package:scribble/widgets/custom_button.dart';
 import 'package:scribble/widgets/phone_field.dart';
 import 'package:scribble/utils/region.dart';
@@ -12,7 +13,7 @@ import 'package:scribble/utils/utils.dart';
 import 'package:scribble/utils/auth.dart';
 import 'package:scribble/utils/constants.dart';
 import 'package:scribble/injection_container.dart';
-import 'package:scribble/bloc/register_bloc.dart';
+import 'package:scribble/bloc/register/register_bloc.dart';
 
 
 class Register extends StatelessWidget {
@@ -41,6 +42,7 @@ class Register extends StatelessWidget {
                 const SizedBox(height: 10),
                 CustomButton(
                   onPressed: () {
+                    HapticFeedback.lightImpact();
                     bloc.add(RegisterValidateNumber(value: _controller.text));
                   },
                   backgroundColor: Colors.purple.shade500,

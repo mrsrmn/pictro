@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:scribble/bloc/register_bloc.dart';
+import 'package:scribble/bloc/register/register_bloc.dart';
 
 class Utils {
   static validatePhone(String value, Emitter emit) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 
 import 'package:scribble/pages/register/register.dart';
@@ -72,7 +73,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                   ),
                 ),
                 CustomButton(
-                  onPressed: () => Get.to(() => Register()),
+                  onPressed: () {
+                    HapticFeedback.lightImpact();
+                    Get.to(() => Register());
+                  },
                   text: "Get started",
                   backgroundColor: Colors.purple.shade500
                 )

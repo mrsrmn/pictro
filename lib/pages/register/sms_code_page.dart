@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:scribble/pages/register/username_page.dart';
 
 import 'package:scribble/utils/auth.dart';
 import 'package:scribble/widgets/custom_button.dart';
@@ -62,6 +63,8 @@ class SmsCodePage extends StatelessWidget {
                 const SizedBox(height: 10),
                 CustomButton(
                   onPressed: () async {
+                    HapticFeedback.lightImpact();
+
                     bool verified = await Authentication.instance.verifyOTP(controller.text);
                     if (verified) {
                       Get.snackbar(
@@ -71,6 +74,7 @@ class SmsCodePage extends StatelessWidget {
                         icon: const Icon(Icons.verified_outlined, color: Colors.green),
                         shouldIconPulse: false
                       );
+                      Get.to(() => UsernamePage());
                     } else {
                       Get.snackbar(
                         "We couldn't sign you in!",
