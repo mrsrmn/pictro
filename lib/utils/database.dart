@@ -8,4 +8,8 @@ class Database {
       key: value
     });
   }
+
+  Future<DataSnapshot> get(String key) async {
+    return await ref.child(key).get();
+  }
 }
