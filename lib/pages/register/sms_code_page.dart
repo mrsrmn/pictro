@@ -78,7 +78,7 @@ class SmsCodePage extends StatelessWidget {
                     } else {
                       Get.snackbar(
                         "We couldn't sign you in!",
-                        "Please contact the developers.",
+                        "Please contact the developers if this wasn't supposed to happen.",
                         colorText: Colors.white,
                         icon: const Icon(Icons.warning_amber, color: Colors.red),
                       );

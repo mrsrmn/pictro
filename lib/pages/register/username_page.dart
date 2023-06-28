@@ -81,6 +81,8 @@ class UsernamePage extends StatelessWidget {
                           colorText: Colors.white,
                           icon: const Icon(Icons.verified_outlined, color: Colors.green)
                         );
+
+                        return initialChild;
                       }
 
                       return initialChild;
