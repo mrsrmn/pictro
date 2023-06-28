@@ -51,9 +51,20 @@ class SmsCodePage extends StatelessWidget {
                   onPressed: () async {
                     bool verified = await Authentication.instance.verifyOTP(controller.text);
                     if (verified) {
-                      Get.snackbar("Success!", "You have been signed in.", colorText: Colors.white);
+                      Get.snackbar(
+                        "Success!",
+                        "You have been signed in.",
+                        colorText: Colors.white,
+                        icon: const Icon(Icons.verified_outlined, color: Colors.green),
+                        shouldIconPulse: false
+                      );
                     } else {
-                      Get.snackbar("We couldn't sign you in!", "Please contact the developers.", colorText: Colors.white);
+                      Get.snackbar(
+                        "We couldn't sign you in!",
+                        "Please contact the developers.",
+                        colorText: Colors.white,
+                        icon: const Icon(Icons.warning_amber, color: Colors.red),
+                      );
                     }
                   },
                   backgroundColor: Colors.purple.shade500,
