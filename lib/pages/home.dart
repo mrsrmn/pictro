@@ -63,11 +63,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10, bottom: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10, bottom: 15),
                   child: Text(
                     "Connect with loved ones through art, without leaving your homescreen.",
-                    style: TextStyle(fontFamily: geologicaMedium, fontSize: 20, color: Colors.white70),
+                    style: TextStyle(fontFamily: geologicaMedium, fontSize: 20, color: Colors.white.withOpacity(.9)),
                     textAlign: TextAlign.center,
                   ),
                 ),
