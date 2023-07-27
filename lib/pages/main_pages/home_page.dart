@@ -1,10 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:scribble/widgets/home_page/camera_view.dart';
 
-class HomePage extends StatelessWidget {
+import 'package:scribble/widgets/home_page/home_topbar.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,25 +19,11 @@ class HomePage extends StatelessWidget {
           color: Colors.black87
         ),
         padding: const EdgeInsets.all(15),
-        child: Column(
+        child: const Column(
           children: [
-            SafeArea(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(99)
-                    ),
-                    padding: const EdgeInsets.all(5),
-                    child: const Icon(CupertinoIcons.person_fill, color: Colors.white),
-                  ),
-                  Text(FirebaseAuth.instance.currentUser!.displayName!)
-                ],
-              ),
-            )
+            HomeTopBar(),
+            SizedBox(height: 15),
+            CameraView()
           ],
         ),
       ),

@@ -57,5 +57,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+    <string>Scribble will use your camera to let you take pictures in-app and upload them.</string>
 </dict>
 </plist>

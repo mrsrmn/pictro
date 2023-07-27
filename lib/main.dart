@@ -31,7 +31,11 @@ void main() async {
     statusBarIconBrightness: Brightness.dark,
   ));
 
-  runApp(MyApp(home: currentUser != null ? const HomePage() : const StartPage()));
+  if (currentUser != null && currentUser.displayName != null) {
+    runApp(const MyApp(home: HomePage()));
+  } else {
+    runApp(const MyApp(home: StartPage()));
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -46,7 +50,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-        fontFamily: geologicaRegular
+        fontFamily: geologicaRegular,
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(),
+          bodyMedium: TextStyle(),
+        ).apply(
+          bodyColor: Colors.white.withOpacity(.9),
+          displayColor: Colors.white.withOpacity(.9)
+        )
       ),
       debugShowCheckedModeBanner: false,
       home: home,
