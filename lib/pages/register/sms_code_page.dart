@@ -7,7 +7,7 @@ import 'package:scribble/widgets/custom_button.dart';
 import 'package:scribble/widgets/custom_text_field.dart';
 import 'package:scribble/pages/main_pages/start_page.dart';
 import 'package:scribble/pages/register/username_page.dart';
-import 'package:scribble/pages/main_pages/home_page.dart';
+import 'package:scribble/pages/main_pages/home_page/home_page.dart';
 
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
