@@ -5,9 +5,17 @@ import 'package:scribble/pages/main_pages/home_page/account_page.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:scribble/widgets/scribble_name.dart';
 
-class HomeTopBar extends StatelessWidget {
+class HomeTopBar extends StatefulWidget {
   const HomeTopBar({super.key});
+
+  @override
+  State<HomeTopBar> createState() => _HomeTopBarState();
+}
+
+class _HomeTopBarState extends State<HomeTopBar> {
+  User user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +24,10 @@ class HomeTopBar extends StatelessWidget {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Get.to(() => const AccountPage()),
+            onTap: () => Get.to(() => const AccountPage())?.then((value) {
+              user.reload();
+              setState(() {});
+            }),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.transparent,
@@ -24,15 +35,41 @@ class HomeTopBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(99)
               ),
               padding: const EdgeInsets.all(5),
-              child: const Icon(CupertinoIcons.person_fill, color: Colors.white),
+              child: buildPfp(),
             ),
           ),
           const SizedBox(width: 10),
-          Text(FirebaseAuth.instance.currentUser!.displayName!, style: const TextStyle(
+          Text(user.displayName!, style: const TextStyle(
             fontSize: 20
-          ))
+          )),
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Theme(
+                data: ThemeData(dialogBackgroundColor: Colors.black),
+                child: GestureDetector(
+                  onTap: () {
+                    showAboutDialog(
+                      context: context,
+                      applicationLegalese: "© 2023 Emir Sürmen",
+                      applicationVersion: "1.0.0"
+                    );
+                  },
+                  child: ScribbleName(fontSize: 25)
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
+  }
+
+  Widget buildPfp() {
+    if (user.photoURL == null) {
+      return const Icon(CupertinoIcons.person_fill, color: Colors.white);
+    }
+
+    return Image.network(user.photoURL!);
   }
 }

@@ -48,12 +48,25 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: "Scribble",
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black87, secondary: Colors.black),
         useMaterial3: true,
+        dialogTheme: const DialogTheme(
+          contentTextStyle: TextStyle(color: Colors.black),
+          titleTextStyle: TextStyle(color: Colors.black),
+          backgroundColor: Colors.black
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white
+        ),
         fontFamily: geologicaRegular,
+        cardColor: Colors.black,
         textTheme: const TextTheme(
-          bodyLarge: TextStyle(),
-          bodyMedium: TextStyle(),
+          bodyLarge: TextStyle(color: Colors.white),
+          titleLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white),
+          bodySmall: TextStyle(color: Colors.white),
+          headlineSmall: TextStyle(color: Colors.white)
         ).apply(
           bodyColor: Colors.white.withOpacity(.9),
           displayColor: Colors.white.withOpacity(.9)
