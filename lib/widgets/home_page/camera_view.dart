@@ -107,15 +107,30 @@ class _CameraViewState extends State<CameraView> {
             ),
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: IconButton(
-                  onPressed: () {
-                    HapticFeedback.lightImpact();
-                    _toggleCameraLens();
-                  },
-                  icon: const Icon(CupertinoIcons.camera_rotate, color: Colors.white, size: 30)
-                ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        HapticFeedback.lightImpact();
+                        _toggleCameraLens();
+                      },
+                      icon: const Icon(CupertinoIcons.camera_rotate, color: Colors.white, size: 30)
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: IconButton(
+                      onPressed: () {
+                        HapticFeedback.lightImpact();
+                        // TODO take picture
+                      },
+                      icon: const Icon(CupertinoIcons.camera_circle_fill, color: Colors.white, size: 60)
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
