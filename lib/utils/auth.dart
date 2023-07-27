@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class Authentication extends GetxController {
@@ -27,11 +28,16 @@ class Authentication extends GetxController {
   }
 
   Future<bool> verifyOTP(String smsCode) async {
-    UserCredential credential = await auth.signInWithCredential(PhoneAuthProvider.credential(
-      verificationId: verificationId.value,
-      smsCode: smsCode
-    ));
+    try {
+      UserCredential credential = await auth.signInWithCredential(PhoneAuthProvider.credential(
+        verificationId: verificationId.value,
+        smsCode: smsCode
+      ));
 
-    return credential.user != null;
+      return credential.user != null;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
   }
 }

@@ -6,14 +6,14 @@ import 'package:scribble/pages/register/register.dart';
 import 'package:scribble/utils/constants.dart';
 import 'package:scribble/widgets/custom_button.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class StartPage extends StatefulWidget {
+  const StartPage({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<StartPage> createState() => _StartPageState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin{
+class _StartPageState extends State<StartPage> with TickerProviderStateMixin{
   late AnimationController controller;
   late Animation<double> animation;
 

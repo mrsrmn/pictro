@@ -12,6 +12,8 @@ import 'package:scribble/widgets/custom_text_field.dart';
 import 'package:scribble/injection_container.dart';
 import 'package:scribble/utils/constants.dart';
 
+import '../main_pages/home_page.dart';
+
 class UsernamePage extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
   final UsernameBloc bloc = sl<UsernameBloc>();
@@ -75,11 +77,20 @@ class UsernamePage extends StatelessWidget {
 
                         return initialChild;
                       } else if (state is UsernameSetSuccess) {
-                        Get.snackbar(
-                          "Success!",
-                          "You are ready to go!",
-                          colorText: Colors.white,
-                          icon: const Icon(Icons.verified_outlined, color: Colors.green)
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Get.snackbar(
+                            "Success!",
+                            "You are ready to go!",
+                            colorText: Colors.white,
+                            icon: const Icon(Icons.verified_outlined, color: Colors.green)
+                          );
+                        });
+
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (_) => const HomePage()
+                          ),
+                          (route) => false
                         );
 
                         return initialChild;

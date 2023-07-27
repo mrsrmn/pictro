@@ -1,13 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
-import 'package:scribble/utils/database.dart';
 
 part 'username_event.dart';
 part 'username_state.dart';
 
 class UsernameBloc extends Bloc<UsernameEvent, UsernameState> {
-  final Database database = Database();
-
   UsernameBloc() : super(UsernameInitial()) {
     on<SetUsernameOfUser>(setUsernameOfUser);
   }
@@ -15,7 +13,7 @@ class UsernameBloc extends Bloc<UsernameEvent, UsernameState> {
   void setUsernameOfUser(SetUsernameOfUser event, Emitter emit) async {
     emit(UsernameLoading());
 
-    await database.set(event.number, event.username);
+    await FirebaseAuth.instance.currentUser!.updateDisplayName(event.username);
 
     emit(UsernameSetSuccess());
   }

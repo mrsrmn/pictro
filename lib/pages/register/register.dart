@@ -62,7 +62,7 @@ class Register extends StatelessWidget {
                       } else if (state is RegisterPhoneValid) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           Authentication.instance.sendSMS(_controller.text);
-                          Get.to(() => SmsCodePage());
+                          Get.to(() => const SmsCodePage());
                         });
                       }
 

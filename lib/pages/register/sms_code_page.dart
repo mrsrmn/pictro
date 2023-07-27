@@ -1,19 +1,38 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:scribble/pages/register/username_page.dart';
 
 import 'package:scribble/utils/auth.dart';
 import 'package:scribble/widgets/custom_button.dart';
 import 'package:scribble/widgets/custom_text_field.dart';
-import 'package:scribble/pages/home.dart';
+import 'package:scribble/pages/main_pages/start_page.dart';
+import 'package:scribble/pages/register/username_page.dart';
+import 'package:scribble/pages/main_pages/home_page.dart';
 
+import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class SmsCodePage extends StatelessWidget {
+class SmsCodePage extends StatefulWidget {
+  const SmsCodePage({super.key});
+
+  @override
+  State<SmsCodePage> createState() => _SmsCodePageState();
+}
+
+class _SmsCodePageState extends State<SmsCodePage> {
   final TextEditingController controller = TextEditingController();
+  final CountdownController countdownController = CountdownController();
 
-  SmsCodePage({super.key});
+  Widget buttonChild = const Text(
+    "Continue",
+    style: TextStyle(
+      fontSize: 19,
+      color: Colors.white,
+    )
+  );
+  bool enabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +58,10 @@ class SmsCodePage extends StatelessWidget {
                   ],
                   counter: Countdown(
                     seconds: 120,
+                    controller: countdownController,
                     build: (_, double time) {
+                      countdownController.start();
+
                       return Text(
                         time.toInt().toString(),
                         style: const TextStyle(
@@ -56,36 +78,76 @@ class SmsCodePage extends StatelessWidget {
                         shouldIconPulse: false,
                         duration: const Duration(seconds: 5)
                       );
-                      Get.to(() => const Home());
+                      Get.to(() => const StartPage());
                     },
                   ),
                 ),
                 const SizedBox(height: 10),
                 CustomButton(
                   onPressed: () async {
-                    HapticFeedback.lightImpact();
+                    if (enabled) {
+                      HapticFeedback.lightImpact();
 
-                    bool verified = await Authentication.instance.verifyOTP(controller.text);
-                    if (verified) {
-                      Get.snackbar(
-                        "Success!",
-                        "You have been signed in.",
-                        colorText: Colors.white,
-                        icon: const Icon(Icons.verified_outlined, color: Colors.green),
-                        shouldIconPulse: false
-                      );
-                      Get.to(() => UsernamePage());
-                    } else {
-                      Get.snackbar(
-                        "We couldn't sign you in!",
-                        "Please contact the developers if this wasn't supposed to happen.",
-                        colorText: Colors.white,
-                        icon: const Icon(Icons.warning_amber, color: Colors.red),
-                      );
+                      countdownController.pause();
+
+                      setState(() {
+                        buttonChild = const Center(child: CupertinoActivityIndicator());
+                        enabled = false;
+                      });
+
+                      bool verified = await Authentication.instance.verifyOTP(controller.text);
+                      if (verified) {
+                        if (FirebaseAuth.instance.currentUser!.displayName == null) {
+                          if (context.mounted) {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                  builder: (_) => UsernamePage()
+                                ),
+                                (route) => false
+                            );
+                          }
+                        } else {
+                          Get.snackbar(
+                            "Success!",
+                            "You have been signed in.",
+                            colorText: Colors.white,
+                            icon: const Icon(Icons.verified_outlined, color: Colors.green),
+                            shouldIconPulse: false
+                          );
+                          if (context.mounted) {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (_) => const HomePage()
+                              ),
+                              (route) => false
+                            );
+                          }
+                        }
+                      } else {
+                        Get.snackbar(
+                          "Error!",
+                          "Please enter a valid SMS code.",
+                          colorText: Colors.white,
+                          icon: const Icon(Icons.warning_amber, color: Colors.red),
+                        );
+
+                        setState(() {
+                          setState(() {
+                            buttonChild = const Text(
+                              "Continue",
+                              style: TextStyle(
+                                fontSize: 19,
+                                color: Colors.white,
+                              )
+                            );
+                            enabled = true;
+                          });
+                        });
+                      }
                     }
                   },
                   backgroundColor: Colors.purple.shade500,
-                  text: "Continue",
+                  child: buttonChild,
                 )
               ]
             ),

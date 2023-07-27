@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:scribble/pages/main_pages/home_page.dart';
 
-import 'package:scribble/pages/home.dart';
+import 'package:scribble/pages/main_pages/start_page.dart';
 import 'package:scribble/utils/auth.dart';
 import 'package:scribble/utils/constants.dart';
 import 'package:scribble/firebase_options.dart';
@@ -22,16 +24,20 @@ void main() async {
 
   Get.put(Authentication());
 
+  var currentUser = FirebaseAuth.instance.currentUser;
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarBrightness: Brightness.dark,
     statusBarIconBrightness: Brightness.dark,
   ));
 
-  runApp(const MyApp());
+  runApp(MyApp(home: currentUser != null ? const HomePage() : const StartPage()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Widget home;
+
+  const MyApp({super.key, required this.home});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,7 @@ class MyApp extends StatelessWidget {
         fontFamily: geologicaRegular
       ),
       debugShowCheckedModeBanner: false,
-      home: const Home(),
+      home: home,
     );
   }
 }
