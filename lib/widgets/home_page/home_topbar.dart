@@ -43,7 +43,6 @@ class _HomeTopBarState extends State<HomeTopBar> {
                 border: Border.all(color: Colors.white),
                 borderRadius: BorderRadius.circular(99)
               ),
-              padding: const EdgeInsets.all(5),
               child: buildPfp(),
             ),
           ),
@@ -77,9 +76,20 @@ class _HomeTopBarState extends State<HomeTopBar> {
 
   Widget buildPfp() {
     if (user.photoURL == null) {
-      return const Icon(CupertinoIcons.person_fill, color: Colors.white);
+      return const Padding(
+        padding: EdgeInsets.all(5),
+        child: Icon(CupertinoIcons.person_fill, color: Colors.white),
+      );
     }
 
-    return Image.network(user.photoURL!);
+    return SizedBox(
+      height: 36,
+      width: 36,
+      child: CircleAvatar(
+        backgroundColor: Colors.white.withOpacity(.9),
+        foregroundImage: NetworkImage(user.photoURL!),
+        radius: 17
+      ),
+    );
   }
 }
