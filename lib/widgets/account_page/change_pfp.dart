@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +21,8 @@ class ChangePfp extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomButton(
       onPressed: () async {
+        HapticFeedback.lightImpact();
+
         try {
           if (context.mounted) {
             showDialog(
