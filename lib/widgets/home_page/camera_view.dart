@@ -83,6 +83,8 @@ class _CameraViewState extends State<CameraView> {
     );
 
     controller.initialize().then((_) {
+      controller.lockCaptureOrientation();
+
       if (!mounted) {
         return;
       }
@@ -157,8 +159,6 @@ class _CameraViewState extends State<CameraView> {
         }
       }
     });
-
-    controller.lockCaptureOrientation();
   }
 
   void _toggleCameraLens() {
