@@ -13,6 +13,11 @@ class UsernameBloc extends Bloc<UsernameEvent, UsernameState> {
   void setUsernameOfUser(SetUsernameOfUser event, Emitter emit) async {
     emit(UsernameLoading());
 
+    if (event.username.isEmpty) {
+      emit(UsernameSetError(message: "Please type something in!"));
+      return;
+    }
+
     await FirebaseAuth.instance.currentUser!.updateDisplayName(event.username);
 
     emit(UsernameSetSuccess());

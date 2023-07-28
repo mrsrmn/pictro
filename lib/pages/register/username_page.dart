@@ -46,6 +46,7 @@ class UsernamePage extends StatelessWidget {
                   hintText: "Type in an username",
                   controller: controller,
                   keyboardType: TextInputType.text,
+                  maxLength: 14,
                 ),
                 const SizedBox(height: 10),
                 CustomButton(
