@@ -6,7 +6,6 @@ import 'package:scribble/pages/main_pages/home_page/account_page.dart';
 import 'package:scribble/widgets/scribble_name.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
 
 class HomeTopBar extends StatefulWidget {
   const HomeTopBar({super.key});
@@ -27,8 +26,14 @@ class _HomeTopBarState extends State<HomeTopBar> {
           GestureDetector(
             onTap: () {
               HapticFeedback.lightImpact();
-              Get.to(() => AccountPage())?.then((value) {
-                user.reload();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const AccountPage()
+                )
+              ).then((_) async {
+                await user.reload();
+                user = FirebaseAuth.instance.currentUser!;
                 setState(() {});
               });
             },
