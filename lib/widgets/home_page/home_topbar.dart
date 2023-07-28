@@ -27,7 +27,7 @@ class _HomeTopBarState extends State<HomeTopBar> {
           GestureDetector(
             onTap: () {
               HapticFeedback.lightImpact();
-              Get.to(() => const AccountPage())?.then((value) {
+              Get.to(() => AccountPage())?.then((value) {
                 user.reload();
                 setState(() {});
               });

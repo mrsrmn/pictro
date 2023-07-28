@@ -5,6 +5,7 @@ import 'package:scribble/utils/constants.dart';
 class CustomButton extends StatelessWidget {
   final Function() onPressed;
   final Color backgroundColor;
+  final Color? foregroundColor;
   final String? text;
   final Widget? child;
 
@@ -12,6 +13,7 @@ class CustomButton extends StatelessWidget {
     super.key,
     this.text,
     this.child,
+    this.foregroundColor,
     required this.onPressed,
     required this.backgroundColor
   });
@@ -23,9 +25,9 @@ class CustomButton extends StatelessWidget {
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(backgroundColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            )
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          )
         )
       ),
       child: buildChild()
@@ -38,10 +40,10 @@ class CustomButton extends StatelessWidget {
     } else {
       return Text(
         text!,
-        style: const TextStyle(
+        style: TextStyle(
           fontFamily: geologicaMedium,
           fontSize: 19,
-          color: Colors.white,
+          color: foregroundColor ?? Colors.white,
         )
       );
     }

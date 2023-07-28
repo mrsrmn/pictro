@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:scribble/widgets/account_page/change_username.dart';
+
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
 
@@ -18,6 +20,11 @@ class AccountPage extends StatelessWidget {
           color: Colors.black87
         ),
         padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            ChangeUsername()
+          ],
+        ),
       ),
     );
   }
