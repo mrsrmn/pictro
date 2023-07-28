@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:scribble/widgets/account_page/change_username.dart';
+import 'package:scribble/widgets/account_page/change_pfp.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -25,7 +26,11 @@ class AccountPage extends StatelessWidget {
           children: [
             SizedBox(
               width: double.infinity,
-              child: ChangeUsername(),
+              child: ChangeUsername()
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ChangePfp()
             )
           ],
         ),
