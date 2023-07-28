@@ -24,6 +24,8 @@ dependencies:
   timer_count_down: ^2.2.2
   firebase_database: ^10.2.3
   camera: ^0.10.5+2
+  image_picker: ^1.0.1
+  firebase_storage: ^11.2.5
 
 dev_dependencies:
   flutter_test:
