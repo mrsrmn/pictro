@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:scribble/widgets/home_page/image_page.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView({super.key});
@@ -18,6 +20,7 @@ class _CameraViewState extends State<CameraView> {
   Widget child = const Center(
     child: CupertinoActivityIndicator(color: Colors.white),
   );
+  FlashMode flashMode = FlashMode.off;
 
   @override
   void initState() {
@@ -83,7 +86,8 @@ class _CameraViewState extends State<CameraView> {
     );
 
     controller.initialize().then((_) {
-      controller.lockCaptureOrientation();
+      controller.lockCaptureOrientation(DeviceOrientation.portraitUp);
+      controller.setFlashMode(flashMode);
 
       if (!mounted) {
         return;
@@ -94,49 +98,7 @@ class _CameraViewState extends State<CameraView> {
             child: CupertinoActivityIndicator(color: Colors.white),
           );
         }
-        child = Stack(
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              child: GestureDetector(
-                onDoubleTap: () {
-                  HapticFeedback.lightImpact();
-                  _toggleCameraLens();
-                },
-                child: CameraPreview(controller)
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: IconButton(
-                      onPressed: () {
-                        HapticFeedback.lightImpact();
-                        _toggleCameraLens();
-                      },
-                      icon: const Icon(CupertinoIcons.camera_rotate, color: Colors.white, size: 30)
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: IconButton(
-                      onPressed: () {
-                        HapticFeedback.lightImpact();
-                        // TODO take picture
-                      },
-                      icon: const Icon(CupertinoIcons.camera_circle_fill, color: Colors.white, size: 60)
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
+        child = cameraViewWidget(camera);
       });
     }).catchError((Object e) {
       debugPrint(e.toString());
@@ -176,5 +138,71 @@ class _CameraViewState extends State<CameraView> {
     }
 
     _initCamera(newDescription);
+  }
+
+  Widget cameraViewWidget(CameraDescription camera) {
+    return Stack(
+      children: [
+        Positioned(
+          left: 0,
+          right: 0,
+          child: GestureDetector(
+            onDoubleTap: () {
+              HapticFeedback.lightImpact();
+              _toggleCameraLens();
+            },
+            child: CameraPreview(controller)
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: IconButton(
+                  onPressed: () {
+                    HapticFeedback.lightImpact();
+                    _toggleCameraLens();
+                  },
+                  icon: const Icon(CupertinoIcons.camera_rotate, color: Colors.white, size: 30)
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: IconButton(
+                  onPressed: () {
+                    HapticFeedback.lightImpact();
+                    controller.takePicture().then((XFile image) {
+                      Get.to(() => ImagePage(image: image));
+                    });
+                  },
+                  icon: const Icon(CupertinoIcons.camera_circle_fill, color: Colors.white, size: 60)
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: IconButton(
+                  onPressed: () {
+                    HapticFeedback.lightImpact();
+                    setState(() {
+                      flashMode = flashMode == FlashMode.off ? FlashMode.always : FlashMode.off;
+                      controller.setFlashMode(flashMode);
+                      child = cameraViewWidget(camera);
+                    });
+                  },
+                  icon: Icon(
+                    flashMode == FlashMode.off ? Icons.flash_off : Icons.flash_on,
+                    color: flashMode == FlashMode.off ? Colors.white : Colors.yellow,
+                    size: 30
+                  )
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
