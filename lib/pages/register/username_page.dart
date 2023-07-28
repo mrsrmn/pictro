@@ -54,7 +54,6 @@ class UsernamePage extends StatelessWidget {
                     HapticFeedback.lightImpact();
                     bloc.add(
                       SetUsernameOfUser(
-                        number: Authentication.instance.auth.currentUser!.phoneNumber!,
                         username: controller.text
                       )
                     );
