@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:scribble/widgets/account_page/change_username.dart';
 import 'package:scribble/widgets/account_page/change_pfp.dart';
 
+import 'package:scribble/widgets/account_page/sign_out.dart';
+
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
 
@@ -31,6 +33,15 @@ class AccountPage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ChangePfp()
+            ),
+            const Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: SafeArea(child: SignOut())
+                ),
+              ),
             )
           ],
         ),
