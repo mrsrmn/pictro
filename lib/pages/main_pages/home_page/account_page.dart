@@ -16,13 +16,17 @@ class AccountPage extends StatelessWidget {
         ),
       ),
       body: Container(
+        width: double.infinity,
         decoration: const BoxDecoration(
           color: Colors.black87
         ),
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            ChangeUsername()
+            SizedBox(
+              width: double.infinity,
+              child: ChangeUsername(),
+            )
           ],
         ),
       ),
