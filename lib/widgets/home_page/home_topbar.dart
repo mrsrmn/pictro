@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:scribble/pages/main_pages/home_page/account_page.dart';
+import 'package:scribble/widgets/scribble_name.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:scribble/widgets/scribble_name.dart';
 
 class HomeTopBar extends StatefulWidget {
   const HomeTopBar({super.key});
@@ -24,10 +25,13 @@ class _HomeTopBarState extends State<HomeTopBar> {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () => Get.to(() => const AccountPage())?.then((value) {
-              user.reload();
-              setState(() {});
-            }),
+            onTap: () {
+              HapticFeedback.lightImpact();
+              Get.to(() => const AccountPage())?.then((value) {
+                user.reload();
+                setState(() {});
+              });
+            },
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.transparent,
@@ -49,6 +53,7 @@ class _HomeTopBarState extends State<HomeTopBar> {
                 data: ThemeData(dialogBackgroundColor: Colors.black),
                 child: GestureDetector(
                   onTap: () {
+                    HapticFeedback.lightImpact();
                     showAboutDialog(
                       context: context,
                       applicationLegalese: "© 2023 Emir Sürmen",
