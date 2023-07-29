@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:image/image.dart' as img;
+import 'package:scribble/widgets/custom_button.dart';
 
 class ImagePage extends StatelessWidget {
   final img.Image image;
@@ -24,15 +26,27 @@ class ImagePage extends StatelessWidget {
         padding: const EdgeInsets.all(15),
         child: Column(
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width - 30,
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Image.memory(img.encodePng(image), fit: BoxFit.fill)
-                )
-              )
+            ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Image.memory(img.encodePng(image), fit: BoxFit.fill)
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: SafeArea(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      onPressed: () {
+                        HapticFeedback.lightImpact();
+                      },
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.purple,
+                      text: "Continue",
+                    ),
+                  ),
+                ),
+              ),
             )
           ],
         ),

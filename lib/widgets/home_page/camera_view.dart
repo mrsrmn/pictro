@@ -169,27 +169,31 @@ class _CameraViewState extends State<CameraView> {
                     HapticFeedback.lightImpact();
                     controller.takePicture().then((XFile selectedImage) async {
                       image.Image decodedImage = image.decodeImage(await selectedImage.readAsBytes())!;
+                      late image.Image croppedImage;
+
                       int imageWidth = 300;
                       if (mounted) {
                         imageWidth = (MediaQuery.of(context).size.width - 30).toInt() * 7;
                       }
 
-                      image.Image croppedImage = image.copyCrop(
-                        decodedImage,
-                        x: -1000,
-                        y: -1000,
-                        width: imageWidth,
-                        height: imageWidth
-                      );
-
-                      croppedImage = image.copyResizeCropSquare(croppedImage, size: imageWidth);
-
-                      if (camera.lensDirection == CameraLensDirection.front) {
-                        croppedImage = image.copyFlip(
-                          croppedImage,
-                          direction: image.FlipDirection.horizontal
+                      await Future.microtask(() {
+                        croppedImage = image.copyCrop(
+                          decodedImage,
+                          x: -1000,
+                          y: -1000,
+                          width: imageWidth,
+                          height: imageWidth
                         );
-                      }
+
+                        croppedImage = image.copyResizeCropSquare(croppedImage, size: imageWidth);
+
+                        if (camera.lensDirection == CameraLensDirection.front) {
+                          croppedImage = image.copyFlip(
+                            croppedImage,
+                            direction: image.FlipDirection.horizontal
+                          );
+                        }
+                      });
 
                       Get.to(() => ImagePage(image: croppedImage));
 
