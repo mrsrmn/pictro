@@ -1,10 +1,9 @@
-import 'dart:io';
-
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
+import 'package:image/image.dart' as img;
+
 class ImagePage extends StatelessWidget {
-  final XFile image;
+  final img.Image image;
 
   const ImagePage({super.key, required this.image});
 
@@ -22,10 +21,10 @@ class ImagePage extends StatelessWidget {
         decoration: const BoxDecoration(
           color: Colors.black87,
         ),
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(15),
         child: Column(
           children: [
-            Image.file(File(image.path))
+            Image.memory(img.encodePng(image), fit: BoxFit.fill)
           ],
         ),
       ),

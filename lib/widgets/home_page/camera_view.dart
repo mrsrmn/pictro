@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:camera/camera.dart';
+import 'package:image/image.dart' as image;
 import 'package:get/get.dart';
 import 'package:scribble/widgets/home_page/image_page.dart';
 
@@ -48,31 +51,20 @@ class _CameraViewState extends State<CameraView> {
     super.dispose();
   }
 
-  double getHeight(BuildContext context) {
-    double deviceHeight = MediaQuery
-        .of(context)
-        .size
-        .height / 1.7;
-
-    if (deviceHeight < 300) {
-      return 300;
-    } else {
-      return deviceHeight;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: getHeight(context),
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.circular(30),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
-        child: child
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: child
+        ),
       )
     );
   }
@@ -126,15 +118,16 @@ class _CameraViewState extends State<CameraView> {
   void _toggleCameraLens() {
     final lensDirection = controller.description.lensDirection;
     CameraDescription newDescription;
+
     if (lensDirection == CameraLensDirection.front) {
       newDescription = _availableCameras.firstWhere((description) =>
-      description
-          .lensDirection == CameraLensDirection.back);
+        description.lensDirection == CameraLensDirection.back
+      );
     }
     else {
       newDescription = _availableCameras.firstWhere((description) =>
-      description
-          .lensDirection == CameraLensDirection.front);
+        description.lensDirection == CameraLensDirection.front
+      );
     }
 
     _initCamera(newDescription);
@@ -174,8 +167,24 @@ class _CameraViewState extends State<CameraView> {
                 child: IconButton(
                   onPressed: () {
                     HapticFeedback.lightImpact();
-                    controller.takePicture().then((XFile image) {
-                      Get.to(() => ImagePage(image: image));
+                    controller.takePicture().then((XFile selectedImage) async {
+                      image.Image decodedImage = image.decodeImage(await selectedImage.readAsBytes())!;
+                      int imageWidth = 300;
+                      if (mounted) {
+                        imageWidth = (MediaQuery.of(context).size.width - 30).toInt() * 7;
+                      }
+
+                      image.Image croppedImage = image.copyCrop(
+                        decodedImage,
+                        x: -1000,
+                        y: -1000,
+                        width: imageWidth,
+                        height: imageWidth
+                      );
+
+                      Get.to(() => ImagePage(image: croppedImage));
+
+                      await File(selectedImage.path).delete();
                     });
                   },
                   icon: const Icon(CupertinoIcons.camera_circle_fill, color: Colors.white, size: 60)
