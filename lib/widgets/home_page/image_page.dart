@@ -24,7 +24,16 @@ class ImagePage extends StatelessWidget {
         padding: const EdgeInsets.all(15),
         child: Column(
           children: [
-            Image.memory(img.encodePng(image), fit: BoxFit.fill)
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 30,
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.memory(img.encodePng(image), fit: BoxFit.fill)
+                )
+              )
+            )
           ],
         ),
       ),

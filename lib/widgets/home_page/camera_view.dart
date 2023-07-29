@@ -182,6 +182,15 @@ class _CameraViewState extends State<CameraView> {
                         height: imageWidth
                       );
 
+                      croppedImage = image.copyResizeCropSquare(croppedImage, size: imageWidth);
+
+                      if (camera.lensDirection == CameraLensDirection.front) {
+                        croppedImage = image.copyFlip(
+                          croppedImage,
+                          direction: image.FlipDirection.horizontal
+                        );
+                      }
+
                       Get.to(() => ImagePage(image: croppedImage));
 
                       await File(selectedImage.path).delete();
