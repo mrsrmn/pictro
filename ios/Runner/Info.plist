@@ -59,5 +59,7 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
     <string>Scribble will use your camera to let you take pictures in-app and upload them.</string>
+    <key>NSContactsUsageDescription</key>
+    <string>Scribble requires contacts access to let you send your Scribbs to your friends.</string>
 </dict>
 </plist>

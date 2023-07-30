@@ -23,7 +23,7 @@ class ImagePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Upload", style: TextStyle(color: Colors.white.withOpacity(.9))),
+        title: Text("Upload Scribb", style: TextStyle(color: Colors.white.withOpacity(.9))),
         backgroundColor: Colors.black87,
         iconTheme: IconThemeData(
           color: Colors.white.withOpacity(.9),
