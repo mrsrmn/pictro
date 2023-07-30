@@ -4,15 +4,14 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:flutter_drawing_board/helpers.dart';
-import 'package:flutter_drawing_board/paint_contents.dart';
-import 'package:image/image.dart' as img;
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:scribble/utils/database.dart';
 import 'package:scribble/widgets/custom_button.dart';
+import 'package:scribble/widgets/image_page/paint_content_selector.dart';
 
 class ImagePage extends StatelessWidget {
-  final img.Image image;
+  final Uint8List image;
 
   ImagePage({super.key, required this.image});
 
@@ -50,7 +49,7 @@ class ImagePage extends StatelessWidget {
                   maxScale: 1,
                   minScale: 1,
                   background: Image.memory(
-                    img.encodePng(image),
+                    image,
                     fit: BoxFit.fill,
                     width: boxSize,
                     height: boxSize,
@@ -65,66 +64,7 @@ class ImagePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StatefulBuilder(
-                      builder: (context, StateSetter setState) {
-                        PaintContent paintContent = SimpleLine();
-
-                        return Wrap(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                HapticFeedback.lightImpact();
-                                setState(() {
-                                  paintContent = SimpleLine();
-                                  drawingController.setPaintContent = SimpleLine();
-                                });
-                              },
-                              icon: Icon(CupertinoIcons.pencil, color: paintContent == SimpleLine() ? Colors.purple : Colors.white.withOpacity(.9))
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                HapticFeedback.lightImpact();
-                                setState(() {
-                                  paintContent = SmoothLine();
-                                  drawingController.setPaintContent = SmoothLine();
-                                });
-                              },
-                              icon: Icon(Icons.brush_rounded, color: paintContent == SmoothLine() ? Colors.purple : Colors.white.withOpacity(.9))
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                HapticFeedback.lightImpact();
-                                setState(() {
-                                  paintContent = StraightLine();
-                                  drawingController.setPaintContent = StraightLine();
-                                });
-                              },
-                              icon: Icon(Icons.show_chart, color: paintContent == StraightLine() ? Colors.purple : Colors.white.withOpacity(.9))
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                HapticFeedback.lightImpact();
-                                setState(() {
-                                  paintContent = Rectangle();
-                                  drawingController.setPaintContent = Rectangle();
-                                });
-                              },
-                              icon: Icon(Icons.rectangle_outlined, color: paintContent == Rectangle() ? Colors.purple : Colors.white.withOpacity(.9))
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                HapticFeedback.lightImpact();
-                                setState(() {
-                                  paintContent = Eraser();
-                                  drawingController.setPaintContent = Eraser();
-                                });
-                              },
-                              icon: Icon(CupertinoIcons.bandage, color: paintContent == Eraser() ? Colors.purple : Colors.white.withOpacity(.9))
-                            ),
-                          ],
-                        );
-                      }
-                    ),
+                    PaintContentSelector(drawingController: drawingController),
                     Wrap(
                       children: [
                         SizedBox(

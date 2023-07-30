@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:camera/camera.dart';
-import 'package:image/image.dart' as image;
-import 'package:get/get.dart';
+import 'package:native_image_cropper/native_image_cropper.dart';
+
 import 'package:scribble/pages/main_pages/home_page/image_page.dart';
 
 class CameraView extends StatefulWidget {
@@ -168,37 +168,29 @@ class _CameraViewState extends State<CameraView> {
                   onPressed: () {
                     HapticFeedback.lightImpact();
                     controller.takePicture().then((XFile selectedImage) async {
-                      image.Image decodedImage = image.decodeImage(await selectedImage.readAsBytes())!;
-                      late image.Image croppedImage;
-
                       int imageWidth = 300;
+
                       if (mounted) {
                         imageWidth = (MediaQuery.of(context).size.width - 30).toInt() * 7;
                       }
 
-                      await Future.microtask(() {
-                        croppedImage = image.copyCrop(
-                          decodedImage,
-                          x: -1000,
-                          y: -1000,
-                          width: imageWidth,
-                          height: imageWidth
-                        );
-
-                        croppedImage = image.copyResizeCropSquare(croppedImage, size: imageWidth);
-
-                        if (camera.lensDirection == CameraLensDirection.front) {
-                          croppedImage = image.copyFlip(
-                            croppedImage,
-                            direction: image.FlipDirection.horizontal
-                          );
-                        }
-                      });
+                       var croppedImage = await NativeImageCropper.cropRect(
+                         bytes: await selectedImage.readAsBytes(),
+                         x: 0,
+                         y: 0,
+                         width: imageWidth,
+                         height: imageWidth,
+                       );
 
                       await controller.dispose();
-                      Get.to(() => ImagePage(image: croppedImage))?.then((_) {
-                        _initCamera(camera);
-                      });
+                      if (mounted) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => ImagePage(image: croppedImage))
+                        ).then((_) {
+                          _initCamera(camera);
+                        });
+                      }
 
                       await File(selectedImage.path).delete();
                     });

@@ -72,6 +72,8 @@ PODS:
   - image_picker_ios (0.0.1):
     - Flutter
   - leveldb-library (1.22.2)
+  - native_image_cropper_ios (0.1.0):
+    - Flutter
   - PromisesObjC (2.3.1)
 
 DEPENDENCIES:
@@ -82,6 +84,7 @@ DEPENDENCIES:
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - native_image_cropper_ios (from `.symlinks/plugins/native_image_cropper_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -114,6 +117,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  native_image_cropper_ios:
+    :path: ".symlinks/plugins/native_image_cropper_ios/ios"
 
 SPEC CHECKSUMS:
   camera_avfoundation: 3125e8cd1a4387f6f31c6c63abb8a55892a9eeeb
@@ -135,6 +140,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
+  native_image_cropper_ios: 63e0da0508f819ddf391a70e33c11f43d60e8182
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
 
 PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189

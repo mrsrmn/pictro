@@ -27,9 +27,9 @@ dependencies:
   image_picker: ^1.0.1
   firebase_storage: ^11.2.5
   auto_size_text: ^3.0.0
-  image: ^4.0.17
   flutter_drawing_board: ^0.4.4+2
   uuid: ^3.0.7
+  native_image_cropper: ^0.3.1
 
 dev_dependencies:
   flutter_test:

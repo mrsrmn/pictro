@@ -9,14 +9,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.4"
-  archive:
-    dependency: transitive
-    description:
-      name: archive
-      sha256: "0c8368c9b3f0abbc193b9d6133649a614204b528982bebc7026372d61677ce3a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.7"
   async:
     dependency: transitive
     description:
@@ -400,14 +392,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
-  image:
-    dependency: "direct main"
-    description:
-      name: image
-      sha256: a72242c9a0ffb65d03de1b7113bc4e189686fc07c7147b8b41811d0dd0e0d9bf
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.17"
   image_picker:
     dependency: "direct main"
     description:
@@ -520,6 +504,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  native_image_cropper:
+    dependency: "direct main"
+    description:
+      name: native_image_cropper
+      sha256: "5e0ce144014f65f365ed2d1703d5863a6db737f8c0efab1dc0a700fdc268cfe4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
+  native_image_cropper_android:
+    dependency: transitive
+    description:
+      name: native_image_cropper_android
+      sha256: "549c88bdece8069f4114a738081f9d3f000cbac69dec6bd213078d419ff7970b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
+  native_image_cropper_ios:
+    dependency: transitive
+    description:
+      name: native_image_cropper_ios
+      sha256: "7e7e6e7b341e4c169cf3614772c0718809453331fcbb295384b831de070300ec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
+  native_image_cropper_macos:
+    dependency: transitive
+    description:
+      name: native_image_cropper_macos
+      sha256: d253a73b8febe04231c9a00e30e4c086e7b0dc8819b6dcabc6a423dd50949d07
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
+  native_image_cropper_platform_interface:
+    dependency: transitive
+    description:
+      name: native_image_cropper_platform_interface
+      sha256: e3544f2bb5c24d90fbcf8e181babdae6c9092acbba5cf448bd17224573dcbda7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
+  native_image_cropper_web:
+    dependency: transitive
+    description:
+      name: native_image_cropper_web
+      sha256: "378210c9c4d705760ebf14642690b29ce53423058c2ead36264d39c7fd5330c5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
   nested:
     dependency: transitive
     description:
@@ -536,14 +568,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
-  petitparser:
-    dependency: transitive
-    description:
-      name: petitparser
-      sha256: cb3798bef7fc021ac45b308f4b51208a152792445cce0448c9a4ba5879dd8750
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.4.0"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -552,14 +576,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  pointycastle:
-    dependency: transitive
-    description:
-      name: pointycastle
-      sha256: "7c1e5f0d23c9016c5bbd8b1473d0d3fb3fc851b876046039509e18e0c7485f2c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.7.3"
   provider:
     dependency: transitive
     description:
@@ -669,14 +685,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  xml:
-    dependency: transitive
-    description:
-      name: xml
-      sha256: "5bc72e1e45e941d825fd7468b9b4cc3b9327942649aeb6fc5cdbf135f0a86e84"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.3.0"
 sdks:
   dart: ">=3.0.5 <4.0.0"
   flutter: ">=3.3.0"
