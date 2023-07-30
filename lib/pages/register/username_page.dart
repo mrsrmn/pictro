@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:scribble/widgets/custom_text_field.dart';
 import 'package:scribble/injection_container.dart';
 import 'package:scribble/utils/constants.dart';
 import 'package:scribble/pages/main_pages/home_page/home_page.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -23,6 +25,7 @@ class UsernamePage extends StatelessWidget {
       color: Colors.white,
     )
   );
+  final Reference ref = FirebaseStorage.instance.ref();
 
   UsernamePage({super.key});
 
@@ -75,6 +78,7 @@ class UsernamePage extends StatelessWidget {
 
                         return initialChild;
                       } else if (state is UsernameSetSuccess) {
+                        final userRef = ref.child("users/${FirebaseAuth.instance.currentUser!.uid}");
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           Get.snackbar(
                             "Success!",
@@ -83,6 +87,8 @@ class UsernamePage extends StatelessWidget {
                             icon: const Icon(Icons.verified_outlined, color: Colors.green)
                           );
                         });
+
+                        userRef.putString("temp");
 
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
