@@ -82,7 +82,7 @@ class ImagePage extends StatelessWidget {
                     child: CustomButton(
                       onPressed: () async {
                         HapticFeedback.lightImpact();
-                        Database().putData(
+                        await Database().putData(
                           (await drawingController.getImageData())!.buffer.asUint8List(),
                           FirebaseAuth.instance.currentUser!.uid // implement selecting a user
                         );
