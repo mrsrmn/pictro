@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:camera/camera.dart';
-import 'package:native_image_cropper/native_image_cropper.dart';
+import 'package:native_image_cropper/native_image_cropper.dart' as img;
 
 import 'package:scribble/pages/main_pages/home_page/image_page.dart';
 
@@ -174,7 +174,7 @@ class _CameraViewState extends State<CameraView> {
                         imageWidth = (MediaQuery.of(context).size.width - 30).toInt() * 7;
                       }
 
-                       var croppedImage = await NativeImageCropper.cropRect(
+                       Uint8List croppedImage = await img.NativeImageCropper.cropRect(
                          bytes: await selectedImage.readAsBytes(),
                          x: 0,
                          y: 0,
@@ -185,8 +185,11 @@ class _CameraViewState extends State<CameraView> {
                       await controller.dispose();
                       if (mounted) {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => ImagePage(image: croppedImage))
+                          context,
+                          MaterialPageRoute(builder: (_) => ImagePage(
+                            image: croppedImage,
+                            mirrored: camera.lensDirection == CameraLensDirection.front,
+                          ))
                         ).then((_) {
                           _initCamera(camera);
                         });

@@ -12,8 +12,9 @@ import 'package:scribble/widgets/image_page/paint_content_selector.dart';
 
 class ImagePage extends StatelessWidget {
   final Uint8List image;
+  final bool mirrored;
 
-  ImagePage({super.key, required this.image});
+  ImagePage({super.key, required this.image, required this.mirrored});
 
   final DrawingController drawingController = DrawingController();
 
@@ -48,11 +49,14 @@ class ImagePage extends StatelessWidget {
                   boardPanEnabled: false,
                   maxScale: 1,
                   minScale: 1,
-                  background: Image.memory(
-                    image,
-                    fit: BoxFit.fill,
-                    width: boxSize,
-                    height: boxSize,
+                  background: Transform.flip(
+                    flipX: mirrored,
+                    child: Image.memory(
+                      image,
+                      fit: BoxFit.fill,
+                      width: boxSize,
+                      height: boxSize,
+                    ),
                   )
                 )
               ),
