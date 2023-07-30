@@ -8,7 +8,7 @@ class Database {
 
   Future<void> putData(Uint8List data, String sentTo) async {
     final photoRef = ref.child(
-      "images/$sentTo/${FirebaseAuth.instance.currentUser!.uid}/${const Uuid().v1()}.png"
+      "images/$sentTo/${FirebaseAuth.instance.currentUser!.phoneNumber}/${const Uuid().v1()}.png"
     );
 
     try {

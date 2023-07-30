@@ -84,7 +84,7 @@ class ImagePage extends StatelessWidget {
                         HapticFeedback.lightImpact();
                         await Database().putData(
                           (await drawingController.getImageData())!.buffer.asUint8List(),
-                          FirebaseAuth.instance.currentUser!.uid // implement selecting a user
+                          FirebaseAuth.instance.currentUser!.phoneNumber! // implement selecting a user
                         );
                       },
                       foregroundColor: Colors.white,
