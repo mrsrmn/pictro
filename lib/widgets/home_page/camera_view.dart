@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 import 'package:image/image.dart' as image;
 import 'package:get/get.dart';
-import 'package:scribble/widgets/home_page/image_page.dart';
+import 'package:scribble/pages/main_pages/home_page/image_page.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView({super.key});
@@ -195,7 +195,10 @@ class _CameraViewState extends State<CameraView> {
                         }
                       });
 
-                      Get.to(() => ImagePage(image: croppedImage));
+                      await controller.dispose();
+                      Get.to(() => ImagePage(image: croppedImage))?.then((_) {
+                        _initCamera(camera);
+                      });
 
                       await File(selectedImage.path).delete();
                     });
