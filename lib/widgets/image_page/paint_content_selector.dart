@@ -16,9 +16,20 @@ class PaintContentSelector extends StatefulWidget {
 
 class _PaintContentSelectorState extends State<PaintContentSelector> {
   PaintContent paintContent = SimpleLine();
-  
+  late Widget child;
+
+  @override
+  void initState() {
+    child = buildChild();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return child;
+  }
+
+  Widget buildChild() {
     return Wrap(
       children: [
         IconButton(
@@ -27,9 +38,10 @@ class _PaintContentSelectorState extends State<PaintContentSelector> {
             setState(() {
               paintContent = SimpleLine();
               widget.drawingController.setPaintContent = SimpleLine();
+              child = buildChild();
             });
           },
-          icon: buildIcon(paintContent)
+          icon: Icon(CupertinoIcons.pencil, color: paintContent.runtimeType == SimpleLine ? Colors.purple : Colors.white.withOpacity(.9))
         ),
         IconButton(
           onPressed: () {
@@ -37,9 +49,10 @@ class _PaintContentSelectorState extends State<PaintContentSelector> {
             setState(() {
               paintContent = SmoothLine();
               widget.drawingController.setPaintContent = SmoothLine();
+              child = buildChild();
             });
           },
-          icon: Icon(Icons.brush_rounded, color: paintContent == SmoothLine() ? Colors.purple : Colors.white.withOpacity(.9))
+          icon: Icon(Icons.brush_rounded, color: paintContent.runtimeType == SmoothLine ? Colors.purple : Colors.white.withOpacity(.9))
         ),
         IconButton(
           onPressed: () {
@@ -47,9 +60,10 @@ class _PaintContentSelectorState extends State<PaintContentSelector> {
             setState(() {
               paintContent = StraightLine();
               widget.drawingController.setPaintContent = StraightLine();
+              child = buildChild();
             });
           },
-          icon: Icon(Icons.show_chart, color: paintContent == StraightLine() ? Colors.purple : Colors.white.withOpacity(.9))
+          icon: Icon(Icons.show_chart, color: paintContent.runtimeType == StraightLine ? Colors.purple : Colors.white.withOpacity(.9))
         ),
         IconButton(
           onPressed: () {
@@ -57,9 +71,10 @@ class _PaintContentSelectorState extends State<PaintContentSelector> {
             setState(() {
               paintContent = Rectangle();
               widget.drawingController.setPaintContent = Rectangle();
+              child = buildChild();
             });
           },
-          icon: Icon(Icons.rectangle_outlined, color: paintContent == Rectangle() ? Colors.purple : Colors.white.withOpacity(.9))
+          icon: Icon(Icons.rectangle_outlined, color: paintContent.runtimeType == Rectangle ? Colors.purple : Colors.white.withOpacity(.9))
         ),
         IconButton(
           onPressed: () {
@@ -67,15 +82,12 @@ class _PaintContentSelectorState extends State<PaintContentSelector> {
             setState(() {
               paintContent = Eraser();
               widget.drawingController.setPaintContent = Eraser();
+              child = buildChild();
             });
           },
-          icon: Icon(CupertinoIcons.bandage, color: paintContent == Eraser() ? Colors.purple : Colors.white.withOpacity(.9))
+          icon: Icon(CupertinoIcons.bandage, color: paintContent.runtimeType == Eraser ? Colors.purple : Colors.white.withOpacity(.9))
         ),
       ],
     );
-  }
-
-  Icon buildIcon(PaintContent paintContent) {
-    return Icon(CupertinoIcons.pencil, color: paintContent == paintContent ? Colors.purple : Colors.white.withOpacity(.9));
   }
 }
