@@ -45,7 +45,7 @@ class ChangePfp extends StatelessWidget {
               await FirebaseStorage.instance.refFromURL(user.photoURL!).delete();
             }
 
-            Reference imageRef = storageRef.child("users/${user.uid}/${image.name}");
+            Reference imageRef = storageRef.child("users/${user.phoneNumber!}/${image.name}");
 
             await imageRef.putFile(File(image.path));
 
