@@ -1,15 +1,20 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
 
 class Database {
-  final DatabaseReference ref = FirebaseDatabase.instance.ref();
+  final Reference ref = FirebaseStorage.instance.ref();
 
-  Future<void> set(String key, String value) async {
-    await ref.set({
-      key: value
-    });
-  }
+  Future<void> putData(Uint8List data, String sentTo) async {
+    final photoRef = ref.child(
+      "images/${FirebaseAuth.instance.currentUser!.uid}/$sentTo/${const Uuid().v1()}.png"
+    );
 
-  Future<DataSnapshot> get(String key) async {
-    return await ref.child(key).get();
+    try {
+      await photoRef.putData(data);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }
