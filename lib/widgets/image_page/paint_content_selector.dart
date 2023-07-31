@@ -80,6 +80,17 @@ class _PaintContentSelectorState extends State<PaintContentSelector> {
           onPressed: () {
             HapticFeedback.lightImpact();
             setState(() {
+              paintContent = Circle();
+              widget.drawingController.setPaintContent = Circle();
+              child = buildChild();
+            });
+          },
+          icon: Icon(CupertinoIcons.circle, color: paintContent.runtimeType == Circle ? Colors.purple : Colors.white.withOpacity(.9))
+        ),
+        IconButton(
+          onPressed: () {
+            HapticFeedback.lightImpact();
+            setState(() {
               paintContent = Eraser();
               widget.drawingController.setPaintContent = Eraser();
               child = buildChild();
