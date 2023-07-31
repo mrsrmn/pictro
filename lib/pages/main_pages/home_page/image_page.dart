@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:scribble/utils/database.dart';
 import 'package:scribble/widgets/custom_button.dart';
+import 'package:scribble/widgets/image_page/friends_modal.dart';
 import 'package:scribble/widgets/image_page/paint_content_selector.dart';
 import 'package:scribble/widgets/image_page/color_selector.dart';
 
@@ -82,9 +81,13 @@ class ImagePage extends StatelessWidget {
                     child: CustomButton(
                       onPressed: () async {
                         HapticFeedback.lightImpact();
-                        await Database().putData(
-                          (await drawingController.getImageData())!.buffer.asUint8List(),
-                          FirebaseAuth.instance.currentUser!.phoneNumber! // implement selecting a user
+
+                        showModalBottomSheet(
+                          backgroundColor: Colors.black,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return FriendsModal(drawingController: drawingController);
+                          }
                         );
                       },
                       foregroundColor: Colors.white,
