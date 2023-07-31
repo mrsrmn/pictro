@@ -33,6 +33,7 @@ dependencies:
   contacts_service: ^0.6.3
   permission_handler: ^10.4.3
   home_widget: ^0.3.0
+  cloud_firestore: ^4.8.4
 
 dev_dependencies:
   flutter_test:

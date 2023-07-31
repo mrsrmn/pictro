@@ -1,6 +1,11 @@
 PODS:
   - camera_avfoundation (0.0.1):
     - Flutter
+  - cloud_firestore (4.8.4):
+    - Firebase/Firestore (= 10.12.0)
+    - firebase_core
+    - Flutter
+    - nanopb (< 2.30910.0, >= 2.30908.0)
   - contacts_service (0.2.2):
     - Flutter
   - Firebase/Auth (10.12.0):
@@ -11,6 +16,9 @@ PODS:
   - Firebase/Database (10.12.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 10.12.0)
+  - Firebase/Firestore (10.12.0):
+    - Firebase/CoreOnly
+    - FirebaseFirestore (~> 10.12.0)
   - Firebase/Storage (10.12.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 10.12.0)
@@ -48,6 +56,11 @@ PODS:
   - FirebaseDatabase (10.12.0):
     - FirebaseCore (~> 10.0)
     - leveldb-library (~> 1.22)
+  - FirebaseFirestore (10.12.0):
+    - FirebaseFirestore/AutodetectLeveldb (= 10.12.0)
+  - FirebaseFirestore/AutodetectLeveldb (10.12.0):
+    - FirebaseFirestore/Base
+  - FirebaseFirestore/Base (10.12.0)
   - FirebaseStorage (10.12.0):
     - FirebaseAppCheckInterop (~> 10.0)
     - FirebaseAuthInterop (~> 10.0)
@@ -76,6 +89,11 @@ PODS:
   - image_picker_ios (0.0.1):
     - Flutter
   - leveldb-library (1.22.2)
+  - nanopb (2.30909.0):
+    - nanopb/decode (= 2.30909.0)
+    - nanopb/encode (= 2.30909.0)
+  - nanopb/decode (2.30909.0)
+  - nanopb/encode (2.30909.0)
   - native_image_cropper_ios (0.1.0):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -87,11 +105,13 @@ PODS:
 
 DEPENDENCIES:
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
+  - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
+  - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.12.0`)
   - Flutter (from `Flutter`)
   - home_widget (from `.symlinks/plugins/home_widget/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -113,11 +133,14 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - leveldb-library
+    - nanopb
     - PromisesObjC
 
 EXTERNAL SOURCES:
   camera_avfoundation:
     :path: ".symlinks/plugins/camera_avfoundation/ios"
+  cloud_firestore:
+    :path: ".symlinks/plugins/cloud_firestore/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
   firebase_auth:
@@ -128,6 +151,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_database/ios"
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
+  FirebaseFirestore:
+    :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
+    :tag: 10.12.0
   Flutter:
     :path: Flutter
   home_widget:
@@ -141,8 +167,14 @@ EXTERNAL SOURCES:
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
 
+CHECKOUT OPTIONS:
+  FirebaseFirestore:
+    :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
+    :tag: 10.12.0
+
 SPEC CHECKSUMS:
   camera_avfoundation: 3125e8cd1a4387f6f31c6c63abb8a55892a9eeeb
+  cloud_firestore: 005e157ad342dbfb2e461cb111a9020aa71bfb22
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   Firebase: 07150e75d142fb9399f6777fa56a187b17f833a0
   firebase_auth: 887426c05a8a301e6432ad1e194f16cc55888a13
@@ -156,6 +188,7 @@ SPEC CHECKSUMS:
   FirebaseCoreExtension: 0ce5ac36042001cfa233ce7bfa28e5c313cf80f4
   FirebaseCoreInternal: 950500ad8a08963657f6d8c67b579740c06d6aa1
   FirebaseDatabase: 6d998d7ef2c1723b3e798a85e61a7dc0504b1ea0
+  FirebaseFirestore: 270e4f7a261c572b033c06dcaaf3cca24143b811
   FirebaseStorage: 1d7ca8c8953fc61ccacaa7c612696b5402968a0d
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   GoogleUtilities: c63691989bf362ba0505507da00eeb326192e83e
@@ -163,11 +196,12 @@ SPEC CHECKSUMS:
   home_widget: 0434835a4c9a75704264feff6be17ea40e0f0d57
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
+  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   native_image_cropper_ios: 63e0da0508f819ddf391a70e33c11f43d60e8182
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
 
-PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
+PODFILE CHECKSUM: ac70dab703e84532b0cea777d26e815af80a1ec9
 
 COCOAPODS: 1.12.1

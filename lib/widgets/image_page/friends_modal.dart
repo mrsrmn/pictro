@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
-import 'package:scribble/pages/main_pages/home_page/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:scribble/pages/main_pages/home_page/home_page.dart';
 import 'package:scribble/utils/database.dart';
 import 'package:scribble/widgets//custom_button.dart';
 
@@ -135,6 +135,8 @@ class _FriendsModalState extends State<FriendsModal> {
                               phone.replaceAll(" ", "")
                             );
                           } catch (e) {
+                            Navigator.pop(context);
+
                             Get.snackbar(
                               "Error!",
                               "We couldn't send your Scribb's!",
@@ -142,7 +144,7 @@ class _FriendsModalState extends State<FriendsModal> {
                               icon: const Icon(Icons.warning_amber, color: Colors.red),
                               shouldIconPulse: false
                             );
-                            break;
+                            return;
                           }
                         }
 
@@ -189,11 +191,11 @@ class _FriendsModalState extends State<FriendsModal> {
 
 
   Future<List<Contact>> getAvailableContacts() async {
-    ListResult dbUsers = await FirebaseStorage.instance.ref().child("users/").list();
+    QuerySnapshot<Map<String, dynamic>> dbUsers = await FirebaseFirestore.instance.collection("users").get();
     List<Contact> availableContacts = [];
 
-    for (var user in dbUsers.prefixes) {
-      var contact = (await ContactsService.getContactsForPhone(user.name));
+    for (var user in dbUsers.docs) {
+      var contact = (await ContactsService.getContactsForPhone(user.id));
 
       if (contact.isNotEmpty) {
         availableContacts.add(contact[0]);

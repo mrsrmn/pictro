@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -7,12 +8,23 @@ class Database {
   final Reference ref = FirebaseStorage.instance.ref();
 
   Future<void> putData(Uint8List data, String sentTo) async {
+    User user = FirebaseAuth.instance.currentUser!;
+    DocumentReference documentReference = FirebaseFirestore.instance.collection("users").doc(sentTo);
+    List receivedScribbs = ((await documentReference.get()).data()! as Map<String, dynamic>)["receivedScribbs"]!;
+
     final photoRef = ref.child(
-      "images/$sentTo/${FirebaseAuth.instance.currentUser!.phoneNumber}/${const Uuid().v1()}.png"
+      "images/$sentTo/${user.phoneNumber}/${const Uuid().v1()}.png"
     );
 
     try {
       await photoRef.putData(data);
+      receivedScribbs.add({
+        "sentBy": user.phoneNumber!,
+        "url": await photoRef.getDownloadURL()
+      });
+      await documentReference.set({
+        "receivedScribbs": receivedScribbs
+      });
     } catch (e) {
       debugPrint(e.toString());
     }
