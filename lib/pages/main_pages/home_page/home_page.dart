@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scribble/widgets/home_page/camera_view.dart';
 
@@ -14,10 +15,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final String appGroupId = "group.scribblewidget";
+  final String iOSWidgetName = "Scribble";
 
   @override
   void initState() {
     super.initState();
+    HomeWidget.setAppGroupId(appGroupId);
+
     requestContactPermission();
     startListening();
   }
@@ -33,7 +38,13 @@ class _HomePageState extends State<HomePage> {
       FirebaseAuth.instance.currentUser!.phoneNumber!
     );
     doc.snapshots().listen((DocumentSnapshot documentSnapshot) {
-      // print(documentSnapshot.data());
+      List receivedScribbs = (documentSnapshot.data()! as Map<String, dynamic>)["receivedScribbs"];
+
+      if (receivedScribbs.isNotEmpty) {
+        HomeWidget.saveWidgetData("scribb_url", receivedScribbs.last["url"]);
+        HomeWidget.saveWidgetData("sent_by", receivedScribbs.last["sentBy"]);
+        HomeWidget.updateWidget(iOSName: iOSWidgetName);
+      }
     });
    }
 

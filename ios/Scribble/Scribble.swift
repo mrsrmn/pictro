@@ -9,32 +9,37 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date())
+    func placeholder(in context: Context) -> ScribbleEntry {
+        ScribbleEntry(date: Date(), scribbImage: nil, sentBy: nil)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date())
+    func getSnapshot(in context: Context, completion: @escaping (ScribbleEntry) -> ()) {
+        let entry: ScribbleEntry
+        
+        if (context.isPreview) {
+            entry = placeholder(in: context)
+        } else {
+            let userDefaults = UserDefaults(suiteName: "group.scribblewidget")
+            let scribbUrl = userDefaults?.string(forKey: "scribb_url")!
+            let sentBy = userDefaults?.string(forKey: "sent_by")!
+
+            entry = ScribbleEntry(date: Date(), scribbImage: scribbUrl!, sentBy: sentBy)
+        }
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate)
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
+        getSnapshot(in: context) { (entry) in
+        let timeline = Timeline(entries: [entry], policy: .atEnd)
+              completion(timeline)
+          }
     }
 }
 
-struct SimpleEntry: TimelineEntry {
-    let date: Date
+struct ScribbleEntry: TimelineEntry {
+    var date: Date
+    var scribbImage: String?
+    var sentBy: String?
 }
 
 struct ScribbleEntryView : View {
@@ -50,7 +55,7 @@ struct ScribbleEntryView : View {
        return bundle.bundleURL
     }
     
-    init(entry: Provider.Entry){
+    init(entry: Provider.Entry) {
         self.entry = entry
         CTFontManagerRegisterFontsForURL(bundle.appending(path: "/assets/fonts/Geologica/static/Geologica-Medium.ttf") as CFURL, CTFontManagerScope.process, nil)
     }
@@ -63,18 +68,23 @@ struct ScribbleEntryView : View {
             .inset(by: 7)
             .fill(Color(hex: 0xDD000000))
           
-          LinearGradient(
-            colors: [
-                Color(hex: 0xFFAB47BC),
-                Color(hex: 0xFF7B1FA2)
-            ],
-            startPoint: .leading,
-            endPoint: .trailing
-          ).mask {
-              Text("Scribble")
-                    .font(Font.custom("Geologica Roman", size: 20).weight(.medium))
-                .padding()
-          }
+            if (entry.scribbImage == nil) {
+                LinearGradient(
+                  colors: [
+                      Color(hex: 0xFFAB47BC),
+                      Color(hex: 0xFF7B1FA2)
+                  ],
+                  startPoint: .leading,
+                  endPoint: .trailing
+                ).mask {
+                    Text("Scribble")
+                      .font(Font.custom("Geologica Roman", size: 20).weight(.medium))
+                      .padding()
+                }
+            } else {
+                NetworkImage(url: URL(string: entry.scribbImage!))
+                    .padding(7)
+            }
         }
     }
 }
@@ -94,7 +104,7 @@ struct Scribble: Widget {
 
 struct Scribble_Previews: PreviewProvider {
     static var previews: some View {
-        ScribbleEntryView(entry: SimpleEntry(date: Date()))
+        ScribbleEntryView(entry: ScribbleEntry(date: Date()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
@@ -109,4 +119,37 @@ extension Color {
             opacity: alpha
         )
     }
+}
+
+struct NetworkImage: View {
+  let url: URL?
+
+  var body: some View {
+
+    Group {
+     if let url = url, let imageData = try? Data(contentsOf: url),
+       let uiImage = UIImage(data: imageData) {
+
+       Image(uiImage: uiImage)
+         .resizable()
+         .aspectRatio(contentMode: .fit)
+         .clipShape(ContainerRelativeShape())
+      }
+      else {
+          LinearGradient(
+            colors: [
+                Color(hex: 0xFFAB47BC),
+                Color(hex: 0xFF7B1FA2)
+            ],
+            startPoint: .leading,
+            endPoint: .trailing
+          ).mask {
+              Text("Scribble")
+                .font(Font.custom("Geologica Roman", size: 20).weight(.medium))
+                .padding()
+          }
+      }
+    }
+  }
+
 }
