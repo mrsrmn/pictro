@@ -4,8 +4,9 @@ import 'package:flutter/services.dart';
 
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
+import 'package:scribble/pages/main_pages/home_page/home_page.dart';
 
 import 'package:scribble/utils/database.dart';
 import 'package:scribble/widgets//custom_button.dart';
@@ -22,6 +23,7 @@ class FriendsModal extends StatefulWidget {
 class _FriendsModalState extends State<FriendsModal> {
   bool? isChecked = false;
   late Future<List<Contact>> availableContacts;
+  List<String> selectedNumbers = [];
 
   @override
   void initState() {
@@ -90,6 +92,11 @@ class _FriendsModalState extends State<FriendsModal> {
                                 setState(() {
                                   isChecked = value;
                                 });
+                                if (isChecked!) {
+                                  selectedNumbers.add(contacts[index].phones![0].value!);
+                                } else {
+                                  selectedNumbers.remove(contacts[index].phones![0].value!);
+                                }
                               },
                             );
                           }
@@ -107,10 +114,65 @@ class _FriendsModalState extends State<FriendsModal> {
                   width: double.infinity,
                   child: CustomButton(
                     onPressed: () async {
-                      await Database().putData(
-                        (await widget.drawingController.getImageData())!.buffer.asUint8List(),
-                        FirebaseAuth.instance.currentUser!.phoneNumber!
-                      );
+                      if (selectedNumbers.isNotEmpty) {
+                        if (context.mounted) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return Container(
+                                color: Colors.black.withOpacity(.5),
+                                child: const Center(child: CircularProgressIndicator())
+                              );
+                            },
+                          );
+                        }
+
+                        for (var phone in selectedNumbers) {
+                          try {
+                            await Database().putData(
+                              (await widget.drawingController.getImageData())!.buffer.asUint8List(),
+                              phone.replaceAll(" ", "")
+                            );
+                          } catch (e) {
+                            Get.snackbar(
+                              "Error!",
+                              "We couldn't send your Scribb's!",
+                              colorText: Colors.white,
+                              icon: const Icon(Icons.warning_amber, color: Colors.red),
+                              shouldIconPulse: false
+                            );
+                            break;
+                          }
+                        }
+
+                        if (mounted) {
+                          Navigator.pop(context);
+
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (_) => const HomePage()),
+                            (route) => false
+                          );
+
+                          Get.snackbar(
+                            "Success!",
+                            "You successfully sent your Scribb to ${selectedNumbers.length} friends!",
+                            colorText: Colors.white,
+                            icon: const Icon(Icons.verified_outlined, color: Colors.green)
+                          );
+                        }
+                      } else {
+                        Navigator.pop(context);
+
+                        Get.snackbar(
+                          "Error!",
+                          "Please select at least 1 person to send your Scribb to!",
+                          colorText: Colors.white,
+                          icon: const Icon(Icons.warning_amber, color: Colors.red),
+                          shouldIconPulse: false
+                        );
+                      }
                     },
                     text: "Send",
                     backgroundColor: Colors.purple,
