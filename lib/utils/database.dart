@@ -22,7 +22,8 @@ class Database {
       await photoRef.putData(data);
       receivedScribbs.add({
         "sentBy": user.phoneNumber!,
-        "url": await photoRef.getDownloadURL()
+        "url": await photoRef.getDownloadURL(),
+        "sentAt": Timestamp.now()
       });
       await documentReference.set({
         "receivedScribbs": receivedScribbs
