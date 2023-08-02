@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:scribble/widgets/home_page/received_scribbs/received_scribb_details.dart';
 
 class ReceivedScribbsView extends StatefulWidget {
@@ -65,14 +66,17 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
             height: size,
             child: GestureDetector(
               onTap: () {
-                showDialog(
+                HapticFeedback.lightImpact();
+
+                showGeneralDialog(
                   context: context,
-                  builder: (BuildContext context) {
+                  pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
                     return ReceivedScribbDetails(
                       sentBy: scribb["sentBy"]!,
-                      url: scribb["url"]!
+                      url: scribb["url"]!,
+                      sentAt: scribb["sentAt"],
                     );
-                  }
+                  },
                 );
               },
               child: Container(
