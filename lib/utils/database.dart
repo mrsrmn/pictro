@@ -9,7 +9,9 @@ class Database {
 
   Future<void> putData(Uint8List data, String sentTo) async {
     User user = FirebaseAuth.instance.currentUser!;
-    DocumentReference documentReference = FirebaseFirestore.instance.collection("users").doc(sentTo);
+    DocumentReference documentReference = FirebaseFirestore.instance.collection("users").doc(
+        FirebaseAuth.instance.currentUser!.phoneNumber!
+    ).collection("private").doc("data");
     List receivedScribbs = ((await documentReference.get()).data()! as Map<String, dynamic>)["receivedScribbs"]!;
 
     final photoRef = ref.child(

@@ -136,7 +136,7 @@ class _FriendsModalState extends State<FriendsModal> {
                             );
                           } catch (e) {
                             Navigator.pop(context);
-
+                            debugPrint(e.toString());
                             Get.snackbar(
                               "Error!",
                               "We couldn't send your Scribb's!",

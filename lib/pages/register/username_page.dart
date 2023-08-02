@@ -78,8 +78,8 @@ class UsernamePage extends StatelessWidget {
                         return initialChild;
                       } else if (state is UsernameSetSuccess) {
                         final userRef = FirebaseFirestore.instance.collection("users").doc(
-                          FirebaseAuth.instance.currentUser!.phoneNumber!
-                        );
+                            FirebaseAuth.instance.currentUser!.phoneNumber!
+                        ).collection("private").doc("data");
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           Get.snackbar(
                             "Success!",

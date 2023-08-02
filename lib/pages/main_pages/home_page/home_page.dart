@@ -6,7 +6,7 @@ import 'package:workmanager/workmanager.dart';
 import 'package:home_widget/home_widget.dart';
 
 import 'package:scribble/widgets/home_page/home_topbar.dart';
-import 'package:scribble/widgets/home_page/received_scribbs_view.dart';
+import 'package:scribble/widgets/home_page/received_scribbs/received_scribbs_view.dart';
 import 'package:scribble/widgets/home_page/camera_view.dart';
 
 const String appGroupId = "group.scribblewidget";
@@ -23,11 +23,15 @@ void callbackDispatcher() {
 Future<void> startListener() async {
   DocumentReference doc = FirebaseFirestore.instance.collection("users").doc(
       FirebaseAuth.instance.currentUser!.phoneNumber!
-  );
+  ).collection("private").doc("data");
   doc.snapshots().listen((DocumentSnapshot documentSnapshot) {
-    List receivedScribbs = (documentSnapshot.data()! as Map<String, dynamic>)["receivedScribbs"];
+    List? receivedScribbs = (documentSnapshot.data()! as Map<String, dynamic>)["receivedScribbs"];
 
-    if (receivedScribbs.isNotEmpty) {
+    if (receivedScribbs == null) {
+      HomeWidget.saveWidgetData("scribb_url", null);
+      HomeWidget.saveWidgetData("sent_by", null);
+      HomeWidget.updateWidget(iOSName: iOSWidgetName);
+    } else if (receivedScribbs.isNotEmpty) {
       HomeWidget.saveWidgetData("scribb_url", receivedScribbs.last["url"]);
       HomeWidget.saveWidgetData("sent_by", receivedScribbs.last["sentBy"]);
       HomeWidget.updateWidget(iOSName: iOSWidgetName);
