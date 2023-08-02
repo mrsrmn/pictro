@@ -23,7 +23,7 @@ class ReceivedScribbDetails extends StatelessWidget {
     var dt = DateTime.fromMillisecondsSinceEpoch(sentAt.millisecondsSinceEpoch);
 
     return Material(
-      color: Colors.black.withOpacity(.7),
+      color: Colors.black.withOpacity(.85),
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
