@@ -37,6 +37,8 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
 
   @override
   Widget build(BuildContext context) {
+    double size = (MediaQuery.of(context).size.width / 3) - 20;
+
     return FutureBuilder(
       future: future,
       builder: (BuildContext context, AsyncSnapshot<List?> snapshot) {
@@ -57,8 +59,8 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
 
         for (var scribb in receivedScribbs) {
           scribbsView.add(SizedBox(
-            width: 110,
-            height: 110,
+            width: size,
+            height: size,
             child: Container(
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
@@ -72,8 +74,8 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
                 child: Image.network(
                   scribb["url"]!,
                   fit: BoxFit.fill,
-                  width: 110,
-                  height: 110,
+                  width: size,
+                  height: size,
                 ),
               ),
             ),
@@ -81,12 +83,15 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
         }
 
         return SingleChildScrollView(
-          child: Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            runAlignment: WrapAlignment.start,
-            runSpacing: 10,
-            spacing: 10,
-            children: scribbsView,
+          child: SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              runAlignment: WrapAlignment.start,
+              runSpacing: 10,
+              spacing: 10,
+              children: scribbsView,
+            ),
           ),
         );
       },
