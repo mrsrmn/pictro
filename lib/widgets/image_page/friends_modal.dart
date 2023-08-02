@@ -116,10 +116,10 @@ class _FriendsModalState extends State<FriendsModal> {
                     onPressed: () async {
                       if (selectedNumbers.isNotEmpty) {
                         if (context.mounted) {
-                          showDialog(
+                          showGeneralDialog(
                             context: context,
                             barrierDismissible: false,
-                            builder: (BuildContext context) {
+                            pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
                               return Container(
                                 color: Colors.black.withOpacity(.5),
                                 child: const Center(child: CircularProgressIndicator())
