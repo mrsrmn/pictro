@@ -90,6 +90,7 @@ class UsernamePage extends StatelessWidget {
                         });
 
                         userRef.set({
+                          "displayName": controller.text,
                           "receivedScribbs": []
                         });
 
