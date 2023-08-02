@@ -57,7 +57,7 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
 
         List<Widget> scribbsView = [];
 
-        for (var scribb in receivedScribbs) {
+        for (var scribb in receivedScribbs.reversed) {
           scribbsView.add(SizedBox(
             width: size,
             height: size,
