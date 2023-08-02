@@ -76,6 +76,16 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
                   fit: BoxFit.fill,
                   width: size,
                   height: size,
+                  loadingBuilder: (_, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+
+                    return const Center(
+                      child: CupertinoActivityIndicator(color: Colors.white),
+                    );
+                  },
+                  errorBuilder: (_, __, ___) {
+                    return const Icon(Icons.error_outline, color: Colors.red);
+                  }
                 ),
               ),
             ),
