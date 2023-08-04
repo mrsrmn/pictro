@@ -45,7 +45,7 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
       future: future,
       builder: (BuildContext context, AsyncSnapshot<List?> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return const Center(child: CupertinoActivityIndicator());
+          return const Center(child: CupertinoActivityIndicator(color: Colors.white));
         }
         List receivedScribbs = snapshot.data!;
 
