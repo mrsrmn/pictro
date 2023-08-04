@@ -132,7 +132,10 @@ class _FriendsModalState extends State<FriendsModal> {
                           try {
                             await Database().putData(
                               (await widget.drawingController.getImageData())!.buffer.asUint8List(),
-                              phone.replaceAll(" ", "")
+                              phone
+                                .replaceAll(" ", "")
+                                .replaceAll("(", "")
+                                .replaceAll(")", "")
                             );
                           } catch (e) {
                             Navigator.pop(context);
