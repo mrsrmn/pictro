@@ -7,8 +7,7 @@
     android:layout_margin="8dp"
     android:background="@drawable/widget_background"
     android:padding="8dp"
-    android:id="@+id/widget_container"
-    android:orientation="horizontal">
+    android:id="@+id/widget_container">
 
     <TextView
         android:id="@+id/default_text"
@@ -18,11 +17,5 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="#E9E9E9"
-        tools:text="Nothing yet!" />
-
-    <ImageView
-        android:id="@+id/scribb_view"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:contentDescription="@string/image" />
+        tools:text="Scribble" />
 </LinearLayout>

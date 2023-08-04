@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:home_widget/home_widget.dart';
@@ -11,7 +12,8 @@ import 'package:scribble/widgets/home_page/received_scribbs/received_scribbs_vie
 import 'package:scribble/widgets/home_page/camera_view.dart';
 
 const String appGroupId = "group.scribblewidget";
-const String widgetName = "Scribble";
+const String iOSWidgetName = "Scribble";
+const String androidWidgetName = "HomeWidgetProvider";
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
@@ -32,15 +34,15 @@ Future<void> startListener() async {
       HomeWidget.saveWidgetData("scribb_url", null);
       HomeWidget.saveWidgetData("sent_by", null);
       HomeWidget.updateWidget(
-        iOSName: widgetName,
-        androidName: widgetName
+        iOSName: iOSWidgetName,
+        androidName: androidWidgetName
       );
     } else if (receivedScribbs.isNotEmpty) {
       HomeWidget.saveWidgetData("scribb_url", receivedScribbs.last["url"]);
       HomeWidget.saveWidgetData("sent_by", receivedScribbs.last["sentBy"]);
       HomeWidget.updateWidget(
-        iOSName: widgetName,
-        androidName: widgetName
+        iOSName: iOSWidgetName,
+        androidName: androidWidgetName
       );
     }
   });
@@ -86,6 +88,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Color(0xDD000000)
+    ));
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
