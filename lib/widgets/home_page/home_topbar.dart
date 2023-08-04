@@ -19,9 +19,6 @@ class _HomeTopBarState extends State<HomeTopBar> {
 
   @override
   Widget build(BuildContext context) {
-    user.reload();
-    user = FirebaseAuth.instance.currentUser!;
-
     return SafeArea(
       bottom: false,
       child: Row(
@@ -35,7 +32,10 @@ class _HomeTopBarState extends State<HomeTopBar> {
                   builder: (_) => const AccountPage()
                 )
               ).then((_) async {
-                setState(() {});
+                user.reload();
+                setState(() {
+                  user = FirebaseAuth.instance.currentUser!;
+                });
               });
             },
             child: Container(
