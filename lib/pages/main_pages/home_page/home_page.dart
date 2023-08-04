@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:home_widget/home_widget.dart';
 
@@ -10,7 +11,7 @@ import 'package:scribble/widgets/home_page/received_scribbs/received_scribbs_vie
 import 'package:scribble/widgets/home_page/camera_view.dart';
 
 const String appGroupId = "group.scribblewidget";
-const String iOSWidgetName = "Scribble";
+const String widgetName = "Scribble";
 
 @pragma('vm:entry-point')
 void callbackDispatcher() {
@@ -30,11 +31,17 @@ Future<void> startListener() async {
     if (receivedScribbs == null) {
       HomeWidget.saveWidgetData("scribb_url", null);
       HomeWidget.saveWidgetData("sent_by", null);
-      HomeWidget.updateWidget(iOSName: iOSWidgetName);
+      HomeWidget.updateWidget(
+        iOSName: widgetName,
+        androidName: widgetName
+      );
     } else if (receivedScribbs.isNotEmpty) {
       HomeWidget.saveWidgetData("scribb_url", receivedScribbs.last["url"]);
       HomeWidget.saveWidgetData("sent_by", receivedScribbs.last["sentBy"]);
-      HomeWidget.updateWidget(iOSName: iOSWidgetName);
+      HomeWidget.updateWidget(
+        iOSName: widgetName,
+        androidName: widgetName
+      );
     }
   });
 }
@@ -47,12 +54,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  requestContactPermission() async {
+    if (await Permission.contacts.request().isGranted) {
+      return;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     HomeWidget.setAppGroupId(appGroupId);
 
     startListener();
+    requestContactPermission();
 
     Workmanager().initialize(
       callbackDispatcher,
