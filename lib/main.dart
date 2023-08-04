@@ -19,6 +19,7 @@ void main() async {
   await sl.init();
 
   await Firebase.initializeApp(
+    name: "Scribble",
     options: DefaultFirebaseOptions.currentPlatform,
   );
 

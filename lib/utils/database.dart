@@ -10,9 +10,8 @@ class Database {
   Future<void> putData(Uint8List data, String sentTo) async {
     User user = FirebaseAuth.instance.currentUser!;
     DocumentReference documentReference = FirebaseFirestore.instance.collection("users").doc(
-        FirebaseAuth.instance.currentUser!.phoneNumber!
+        sentTo
     ).collection("private").doc("data");
-    List receivedScribbs = ((await documentReference.get()).data()! as Map<String, dynamic>)["receivedScribbs"]!;
 
     final photoRef = ref.child(
       "images/$sentTo/${user.phoneNumber}/${const Uuid().v1()}.png"
@@ -20,14 +19,15 @@ class Database {
 
     try {
       await photoRef.putData(data);
-      receivedScribbs.add({
-        "sentBy": user.phoneNumber!,
-        "url": await photoRef.getDownloadURL(),
-        "sentAt": Timestamp.now()
-      });
       await documentReference.set({
-        "receivedScribbs": receivedScribbs
-      });
+        "receivedScribbs": [
+          {
+            "sentBy": user.phoneNumber!,
+            "url": await photoRef.getDownloadURL(),
+            "sentAt": Timestamp.now()
+          }
+        ]
+      }, SetOptions(merge: true));
     } catch (e) {
       debugPrint(e.toString());
     }

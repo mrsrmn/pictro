@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "229616784662",
+    "firebase_url": "https://scribble-98cba-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "scribble-98cba",
+    "storage_bucket": "scribble-98cba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:229616784662:android:56bcf8329af6c8696cec37",
+        "android_client_info": {
+          "package_name": "com.emirs.scribble"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "229616784662-88bm75be2s4buhlp5ko5p72s8jus6q0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFhULZXuYHYejdWxmKvtROBbXYSyHuHY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "229616784662-88bm75be2s4buhlp5ko5p72s8jus6q0f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "229616784662-9acbr9j3j4mgg8evivme7crbitvqiu99.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.emirs.scribble"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

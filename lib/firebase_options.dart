@@ -24,10 +24,7 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
@@ -52,11 +49,21 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBFhULZXuYHYejdWxmKvtROBbXYSyHuHY0',
+    appId: '1:229616784662:android:56bcf8329af6c8696cec37',
+    messagingSenderId: '229616784662',
+    projectId: 'scribble-98cba',
+    databaseURL: 'https://scribble-98cba-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'scribble-98cba.appspot.com',
+  );
+
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBACWpW9Dt5fw1GrfCoEAfrT6thCR--Jps',
     appId: '1:229616784662:ios:c8c944c9166179db6cec37',
     messagingSenderId: '229616784662',
     projectId: 'scribble-98cba',
+    databaseURL: 'https://scribble-98cba-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'scribble-98cba.appspot.com',
     iosClientId: '229616784662-9acbr9j3j4mgg8evivme7crbitvqiu99.apps.googleusercontent.com',
     iosBundleId: 'com.emirs.scribble',
