@@ -77,9 +77,12 @@ class UsernamePage extends StatelessWidget {
 
                         return initialChild;
                       } else if (state is UsernameSetSuccess) {
-                        final userRef = FirebaseFirestore.instance.collection("users").doc(
-                            FirebaseAuth.instance.currentUser!.phoneNumber!
+                        final userPrivateRef = FirebaseFirestore.instance.collection("users").doc(
+                          FirebaseAuth.instance.currentUser!.phoneNumber!
                         ).collection("private").doc("data");
+                        final userRef =  FirebaseFirestore.instance.collection("users").doc(
+                          FirebaseAuth.instance.currentUser!.phoneNumber!
+                        );
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           Get.snackbar(
                             "Success!",
@@ -91,6 +94,9 @@ class UsernamePage extends StatelessWidget {
 
                         userRef.set({
                           "displayName": controller.text,
+                        });
+
+                        userPrivateRef.set({
                           "receivedScribbs": []
                         });
 
