@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 import 'package:scribble/widgets/custom_button.dart';
@@ -45,11 +46,20 @@ class ChangePfp extends StatelessWidget {
               await FirebaseStorage.instance.refFromURL(user.photoURL!).delete();
             }
 
+            final userRef =  FirebaseFirestore.instance.collection("users").doc(
+                FirebaseAuth.instance.currentUser!.phoneNumber!
+            );
+
             Reference imageRef = storageRef.child("users/${user.phoneNumber!}/${image.name}");
 
             await imageRef.putFile(File(image.path));
 
-            user.updatePhotoURL(await imageRef.getDownloadURL());
+            String downloadUrl = await imageRef.getDownloadURL();
+
+            user.updatePhotoURL(downloadUrl);
+            userRef.update({
+              "photoUrl": downloadUrl
+            });
 
             if (context.mounted) {
               Navigator.pop(context);
