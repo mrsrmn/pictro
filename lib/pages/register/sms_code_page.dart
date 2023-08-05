@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:scribble/utils/auth.dart';
+import 'package:scribble/utils/auth_values.dart';
 import 'package:scribble/widgets/custom_button.dart';
 import 'package:scribble/widgets/custom_text_field.dart';
 import 'package:scribble/pages/main_pages/start_page.dart';
@@ -95,8 +96,8 @@ class _SmsCodePageState extends State<SmsCodePage> {
                         enabled = false;
                       });
 
-                      bool verified = await Authentication.instance.verifyOTP(controller.text);
-                      if (verified) {
+                      AuthValues verified = await Authentication.instance.verifyOTP(controller.text);
+                      if (verified == AuthValues.success) {
                         if (FirebaseAuth.instance.currentUser!.displayName == null) {
                           if (context.mounted) {
                             Navigator.of(context).pushAndRemoveUntil(
@@ -124,9 +125,17 @@ class _SmsCodePageState extends State<SmsCodePage> {
                           }
                         }
                       } else {
+                        String errorText;
+
+                        if (verified == AuthValues.invalidSmsCode) {
+                          errorText = "Please enter a valid SMS code.";
+                        } else {
+                          errorText = "There was an error while verifying your SMS code. Please try again later.";
+                        }
+
                         Get.snackbar(
                           "Error!",
-                          "Please enter a valid SMS code.",
+                          errorText,
                           colorText: Colors.white,
                           icon: const Icon(Icons.warning_amber, color: Colors.red),
                         );

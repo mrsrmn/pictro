@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:scribble/utils/auth_values.dart';
 
 class Authentication extends GetxController {
   static Authentication get instance => Get.find();
@@ -27,17 +28,24 @@ class Authentication extends GetxController {
     );
   }
 
-  Future<bool> verifyOTP(String smsCode) async {
+  Future<AuthValues> verifyOTP(String smsCode) async {
     try {
       UserCredential credential = await auth.signInWithCredential(PhoneAuthProvider.credential(
         verificationId: verificationId.value,
         smsCode: smsCode
       ));
 
-      return credential.user != null;
-    } catch (e) {
-      debugPrint(e.toString());
-      return false;
+      return credential.user != null ? AuthValues.success : AuthValues.error;
+    } on FirebaseAuthException catch (e, _) {
+      debugPrint(e.code);
+
+      if (e.code == "unknown") {
+        return AuthValues.unknown;
+      } else if (e.code == "invalid-credential") {
+        return AuthValues.invalidSmsCode;
+      } else {
+        return AuthValues.error;
+      }
     }
   }
 }
