@@ -72,7 +72,7 @@ class _FriendsModalState extends State<FriendsModal> {
 
                     if (contacts.isEmpty) {
                       return const Center(
-                        child: Text("You don't have any contacts!"),
+                        child: Text("You don't have any contacts that use Scribble!"),
                       );
                     }
 
