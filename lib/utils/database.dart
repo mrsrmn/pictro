@@ -19,15 +19,13 @@ class Database {
 
     try {
       await photoRef.putData(data);
-      await documentReference.set({
-        "receivedScribbs": [
-          {
-            "sentBy": user.phoneNumber!,
-            "url": await photoRef.getDownloadURL(),
-            "sentAt": Timestamp.now()
-          }
-        ]
-      }, SetOptions(merge: true));
+      await documentReference.update({
+        "receivedScribbs": FieldValue.arrayUnion([{
+          "sentBy": user.phoneNumber!,
+          "url": await photoRef.getDownloadURL(),
+          "sentAt": Timestamp.now()
+        }])
+      });
     } catch (e) {
       debugPrint(e.toString());
     }
