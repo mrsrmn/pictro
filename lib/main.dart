@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,9 +30,15 @@ void main() async {
   var currentUser = FirebaseAuth.instance.currentUser;
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    systemNavigationBarColor: Colors.transparent,
     statusBarBrightness: Brightness.dark,
-    statusBarIconBrightness: Brightness.dark,
+    statusBarIconBrightness: Brightness.light,
   ));
+
+  if (Platform.isAndroid) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
+  }
 
   if (currentUser != null && currentUser.displayName != null) {
     runApp(const MyApp(home: HomePage()));

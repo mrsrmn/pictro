@@ -37,11 +37,6 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Color(0xDD000000)
-    ));
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
