@@ -61,13 +61,21 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  requestCameraPermission() async {
+    if (await Permission.camera.request().isGranted) {
+      requestContactPermission();
+      return;
+    }
+    requestContactPermission();
+  }
+
   @override
   void initState() {
     super.initState();
     HomeWidget.setAppGroupId(appGroupId);
 
     startListener();
-    requestContactPermission();
+    requestCameraPermission();
 
     Workmanager().initialize(
       callbackDispatcher,
