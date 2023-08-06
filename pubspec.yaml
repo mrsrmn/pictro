@@ -36,6 +36,7 @@ dependencies:
   cloud_firestore: ^4.8.4
   workmanager: ^0.5.1
   intl: ^0.18.1
+  flutter_animate: ^4.2.0+1
 
 dev_dependencies:
   flutter_test:

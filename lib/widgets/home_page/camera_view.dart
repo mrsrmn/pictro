@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:camera/camera.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:native_image_cropper/native_image_cropper.dart' as img;
 
 import 'package:scribble/pages/main_pages/home_page/image_page.dart';
@@ -24,6 +25,9 @@ class _CameraViewState extends State<CameraView> {
     child: CupertinoActivityIndicator(color: Colors.white),
   );
   FlashMode flashMode = FlashMode.off;
+  bool showFocusCircle = false;
+  double x = 0;
+  double y = 0;
 
   @override
   void initState() {
@@ -134,95 +138,150 @@ class _CameraViewState extends State<CameraView> {
   }
 
   Widget cameraViewWidget(CameraDescription camera) {
-    return Stack(
-      children: [
-        Positioned(
-          left: 0,
-          right: 0,
-          child: GestureDetector(
-            onDoubleTap: () {
-              HapticFeedback.lightImpact();
-              _toggleCameraLens();
-            },
-            child: CameraPreview(controller)
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: IconButton(
-                  onPressed: () {
-                    HapticFeedback.lightImpact();
-                    _toggleCameraLens();
-                  },
-                  icon: const Icon(CupertinoIcons.camera_rotate, color: Colors.white, size: 30)
+    return StatefulBuilder(
+      builder: (context, StateSetter setState) {
+        void onTapUp(TapUpDetails details) async {
+          if (controller.value.isInitialized) {
+            setState(() {
+              showFocusCircle = true;
+            });
+
+            x = details.localPosition.dx;
+            y = details.localPosition.dy;
+
+            double fullWidth = MediaQuery.of(context).size.width - 20;
+
+            double xp = x / fullWidth;
+            double yp = y / fullWidth;
+
+            Offset point = Offset(xp, yp);
+
+            await controller.setFocusPoint(point);
+            await controller.setExposurePoint(point);
+
+            await Future.delayed(const Duration(seconds: 1, milliseconds: 600)).whenComplete(() {
+              setState(() {
+                showFocusCircle = false;
+              });
+            });
+          }
+        }
+
+        Widget buildFocusCircle() {
+          if (showFocusCircle) {
+            return Positioned(
+              top: y-20,
+              left: x-20,
+              child: Container(
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 1.5)
                 ),
+              )).animate()
+                .fadeIn(duration: const Duration(milliseconds: 100))
+                .fadeOut(delay: const Duration(seconds: 1), duration: const Duration(milliseconds: 500));
+          } else {
+            return const SizedBox();
+          }
+        }
+
+        return Stack(
+          children: [
+            Positioned(
+              left: 0,
+              right: 0,
+              child: GestureDetector(
+                onDoubleTap: () {
+                  HapticFeedback.lightImpact();
+                  _toggleCameraLens();
+                },
+                onTapUp: (TapUpDetails details) {
+                  onTapUp(details);
+                },
+                child: CameraPreview(controller)
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: IconButton(
-                  onPressed: () {
-                    HapticFeedback.lightImpact();
-                    controller.takePicture().then((XFile selectedImage) async {
-                      int imageWidth = 300;
+            ),
+            buildFocusCircle(),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        HapticFeedback.lightImpact();
+                        _toggleCameraLens();
+                      },
+                      icon: const Icon(CupertinoIcons.camera_rotate, color: Colors.white, size: 30)
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: IconButton(
+                      onPressed: () {
+                        HapticFeedback.lightImpact();
+                        controller.takePicture().then((XFile selectedImage) async {
+                          int imageWidth = 300;
 
-                      if (mounted) {
-                        imageWidth = (MediaQuery.of(context).size.width - 30).toInt() * 7;
-                      }
+                          if (mounted) {
+                            imageWidth = (MediaQuery.of(context).size.width - 30).toInt() * 7;
+                          }
 
-                       Uint8List croppedImage = await img.NativeImageCropper.cropRect(
-                         bytes: await selectedImage.readAsBytes(),
-                         x: 0,
-                         y: 0,
-                         width: imageWidth,
-                         height: imageWidth,
-                       );
+                           Uint8List croppedImage = await img.NativeImageCropper.cropRect(
+                             bytes: await selectedImage.readAsBytes(),
+                             x: 0,
+                             y: 0,
+                             width: imageWidth,
+                             height: imageWidth,
+                           );
 
-                      await controller.dispose();
-                      if (mounted) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => ImagePage(
-                            image: croppedImage,
-                            mirrored: camera.lensDirection == CameraLensDirection.front,
-                          ))
-                        ).then((_) {
-                          _initCamera(camera);
+                          await controller.dispose();
+                          if (mounted) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => ImagePage(
+                                image: croppedImage,
+                                mirrored: camera.lensDirection == CameraLensDirection.front,
+                              ))
+                            ).then((_) {
+                              _initCamera(camera);
+                            });
+                          }
+
+                          await File(selectedImage.path).delete();
                         });
-                      }
-
-                      await File(selectedImage.path).delete();
-                    });
-                  },
-                  icon: const Icon(CupertinoIcons.camera_circle_fill, color: Colors.white, size: 60)
-                ),
+                      },
+                      icon: const Icon(CupertinoIcons.camera_circle_fill, color: Colors.white, size: 60)
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: IconButton(
+                      onPressed: () {
+                        HapticFeedback.lightImpact();
+                        setState(() {
+                          flashMode = flashMode == FlashMode.off ? FlashMode.always : FlashMode.off;
+                          controller.setFlashMode(flashMode);
+                          child = cameraViewWidget(camera);
+                        });
+                      },
+                      icon: Icon(
+                        flashMode == FlashMode.off ? Icons.flash_off : Icons.flash_on,
+                        color: flashMode == FlashMode.off ? Colors.white : Colors.yellow,
+                        size: 30
+                      )
+                    ),
+                  ),
+                ],
               ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: IconButton(
-                  onPressed: () {
-                    HapticFeedback.lightImpact();
-                    setState(() {
-                      flashMode = flashMode == FlashMode.off ? FlashMode.always : FlashMode.off;
-                      controller.setFlashMode(flashMode);
-                      child = cameraViewWidget(camera);
-                    });
-                  },
-                  icon: Icon(
-                    flashMode == FlashMode.off ? Icons.flash_off : Icons.flash_on,
-                    color: flashMode == FlashMode.off ? Colors.white : Colors.yellow,
-                    size: 30
-                  )
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      }
     );
   }
 }
