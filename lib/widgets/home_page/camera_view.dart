@@ -29,8 +29,7 @@ class _CameraViewState extends State<CameraView> {
   double x = 0;
   double y = 0;
 
-  @override
-  void initState() {
+  void checkAvailableCameras() {
     availableCameras().then((value) {
       if (value.isEmpty) {
         setState(() {
@@ -45,8 +44,12 @@ class _CameraViewState extends State<CameraView> {
 
       _availableCameras = value;
     });
+  }
 
+  @override
+  void initState() {
     super.initState();
+    checkAvailableCameras();
   }
 
   @override
@@ -78,7 +81,9 @@ class _CameraViewState extends State<CameraView> {
       camera,
       ResolutionPreset.max,
       enableAudio: false,
-      imageFormatGroup: ImageFormatGroup.bgra8888
+      imageFormatGroup: Platform.isIOS
+          ? ImageFormatGroup.bgra8888
+          : ImageFormatGroup.yuv420
     );
 
     controller.initialize().then((_) {
