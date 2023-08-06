@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,19 +46,13 @@ class ReceivedScribbDetails extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(30),
-                    child: Image.network(
-                        url,
-                        fit: BoxFit.fill,
-                        loadingBuilder: (_, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-
-                          return const Center(
-                            child: CupertinoActivityIndicator(color: Colors.white),
-                          );
-                        },
-                        errorBuilder: (_, __, ___) {
-                          return const Icon(Icons.error_outline, color: Colors.red);
-                        }
+                    child: CachedNetworkImage(
+                      imageUrl: url,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => const Center(
+                        child: CupertinoActivityIndicator(color: Colors.white),
+                      ),
+                      errorWidget: (context, url, error) => const Icon(Icons.error_outline, color: Colors.red),
                     ),
                   ),
                   const SizedBox(height: 15),

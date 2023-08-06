@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -89,21 +90,15 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(18),
-                  child: Image.network(
-                    scribb["url"]!,
+                  child: CachedNetworkImage(
+                    imageUrl: scribb["url"]!,
                     fit: BoxFit.fill,
                     width: size,
                     height: size,
-                    loadingBuilder: (_, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-
-                      return const Center(
-                        child: CupertinoActivityIndicator(color: Colors.white),
-                      );
-                    },
-                    errorBuilder: (_, __, ___) {
-                      return const Icon(Icons.error_outline, color: Colors.red);
-                    }
+                    placeholder: (context, url) => const Center(
+                      child: CupertinoActivityIndicator(color: Colors.white),
+                    ),
+                    errorWidget: (context, url, error) => const Icon(Icons.error_outline, color: Colors.red),
                   ),
                 ),
               ),

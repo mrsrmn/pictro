@@ -6,6 +6,7 @@ import 'package:scribble/pages/main_pages/home_page/account_page.dart';
 import 'package:scribble/widgets/scribble_name.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeTopBar extends StatefulWidget {
   const HomeTopBar({super.key});
@@ -88,7 +89,9 @@ class _HomeTopBarState extends State<HomeTopBar> {
       width: 36,
       child: CircleAvatar(
         backgroundColor: Colors.white.withOpacity(.9),
-        foregroundImage: NetworkImage(user.photoURL!),
+        foregroundImage: CachedNetworkImageProvider(
+          user.photoURL!
+        ),
         radius: 17
       ),
     );

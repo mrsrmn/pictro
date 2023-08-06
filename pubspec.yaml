@@ -37,6 +37,7 @@ dependencies:
   workmanager: ^0.5.1
   intl: ^0.18.1
   flutter_animate: ^4.2.0+1
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
