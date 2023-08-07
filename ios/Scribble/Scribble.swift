@@ -20,10 +20,10 @@ struct Provider: TimelineProvider {
             entry = placeholder(in: context)
         } else {
             let userDefaults = UserDefaults(suiteName: "group.scribblewidget")
-            let scribbUrl = userDefaults?.string(forKey: "scribb_url")!
-            let sentBy = userDefaults?.string(forKey: "sent_by")!
+            let scribbUrl = userDefaults?.string(forKey: "scribb_url")
+            let sentBy = userDefaults?.string(forKey: "sent_by")
 
-            entry = ScribbleEntry(date: Date(), scribbImage: scribbUrl!, sentBy: sentBy)
+            entry = ScribbleEntry(date: Date(), scribbImage: scribbUrl, sentBy: sentBy)
         }
         completion(entry)
     }
@@ -69,18 +69,9 @@ struct ScribbleEntryView : View {
             .fill(Color(hex: 0xDD000000))
           
             if (entry.scribbImage == nil) {
-                LinearGradient(
-                  colors: [
-                      Color(hex: 0xFFAB47BC),
-                      Color(hex: 0xFF7B1FA2)
-                  ],
-                  startPoint: .leading,
-                  endPoint: .trailing
-                ).mask {
-                    Text("Scribble")
-                      .font(Font.custom("Geologica Roman", size: 20).weight(.medium))
-                      .padding()
-                }
+                Text("Nothing yet!")
+                  .font(Font.custom("Geologica Roman", size: 18).weight(.medium))
+                  .padding()
             } else {
                 NetworkImage(url: URL(string: entry.scribbImage!))
                     .padding(7)
