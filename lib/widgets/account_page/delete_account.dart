@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:scribble/utils/auth_values.dart';
-import 'package:scribble/utils/database.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import 'package:get/get.dart';
@@ -14,6 +12,8 @@ import 'package:scribble/widgets/custom_button.dart';
 import 'package:scribble/pages/main_pages/start_page.dart';
 import 'package:scribble/utils/constants.dart';
 import 'package:scribble/widgets/custom_text_field.dart';
+import 'package:scribble/utils/auth_values.dart';
+import 'package:scribble/utils/database.dart';
 
 class DeleteAccount extends StatelessWidget {
   DeleteAccount({super.key});
@@ -83,7 +83,8 @@ class DeleteAccount extends StatelessWidget {
         return Text(
           time.toInt().toString(),
           style: const TextStyle(
-              color: Colors.white
+            color: Colors.white,
+            fontFamily: geologicaMedium
           ),
         );
       },
