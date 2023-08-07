@@ -48,12 +48,19 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CupertinoActivityIndicator(color: Colors.white));
         }
-        List receivedScribbs = snapshot.data!;
+        List? receivedScribbs = snapshot.data;
+
+        if (receivedScribbs == null) {
+          return Center(
+            child: Text("There was an error while fetching received Scribbs!", style: TextStyle(
+              color: Colors.white.withOpacity(.9),
+            ), textAlign: TextAlign.center),
+          );
+        }
 
         if (receivedScribbs.isEmpty) {
-
           return Center(
-            child: Text("You don't have any received scribbs!", style: TextStyle(
+            child: Text("You don't have any received Scribbs!", style: TextStyle(
               color: Colors.white.withOpacity(.9)
             )),
           );
