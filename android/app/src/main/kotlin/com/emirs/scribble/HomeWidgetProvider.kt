@@ -25,7 +25,7 @@ class HomeWidgetProvider : HomeWidgetProvider() {
 
                 if (scribbUrl == null) {
                     setViewVisibility(R.id.default_text, View.VISIBLE)
-                    setViewVisibility(R.id.scribb_view, View.INVISIBLE)
+                    setViewVisibility(R.id.scribb_view, View.GONE)
                     setTextViewText(R.id.default_text, "Nothing yet!")
                 } else {
                     Thread {
@@ -33,7 +33,7 @@ class HomeWidgetProvider : HomeWidgetProvider() {
                         val bitmap: Bitmap = Picasso.get().load(scribbUrl).get()
 
                         views.setViewVisibility(R.id.scribb_view, View.VISIBLE)
-                        views.setViewVisibility(R.id.default_text, View.INVISIBLE)
+                        views.setViewVisibility(R.id.default_text, View.GONE)
                         views.setImageViewBitmap(R.id.scribb_view, bitmap)
 
                         appWidgetManager.updateAppWidget(widgetId, views)
