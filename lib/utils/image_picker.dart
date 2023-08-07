@@ -8,8 +8,6 @@ class ImageSelector {
       source: source,
       imageQuality: 100,
       requestFullMetadata: false,
-      maxHeight: 100,
-      maxWidth: 100
     );
   }
 

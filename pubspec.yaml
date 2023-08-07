@@ -39,6 +39,7 @@ dependencies:
   flutter_animate: ^4.2.0+1
   cached_network_image: ^3.2.3
   firebase_app_check: ^0.1.5+1
+  image_cropper: ^5.0.0
 
 dev_dependencies:
   flutter_test:

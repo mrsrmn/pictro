@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,36 +43,46 @@ class ChangePfp extends StatelessWidget {
           User user = FirebaseAuth.instance.currentUser!;
 
           if (image != null) {
-            if (user.photoURL != null) {
-              await FirebaseStorage.instance.refFromURL(user.photoURL!).delete();
-            }
-
-            final userRef =  FirebaseFirestore.instance.collection("users").doc(
-                FirebaseAuth.instance.currentUser!.phoneNumber!
+            CroppedFile? croppedImage = await ImageCropper().cropImage(
+              sourcePath: image.path,
+              aspectRatioPresets: [
+                CropAspectRatioPreset.square,
+              ],
+              maxHeight: 100,
+              maxWidth: 100,
+              compressFormat: ImageCompressFormat.png,
+              aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+              uiSettings: [
+                AndroidUiSettings(
+                  toolbarTitle: "Crop Image",
+                  toolbarColor: Colors.purple,
+                  toolbarWidgetColor: Colors.white,
+                  initAspectRatio: CropAspectRatioPreset.square,
+                  lockAspectRatio: true
+                ),
+                IOSUiSettings(
+                  title: "Crop Image",
+                  aspectRatioLockEnabled: true,
+                  resetAspectRatioEnabled: false,
+                  aspectRatioLockDimensionSwapEnabled: false,
+                  minimumAspectRatio: 1,
+                ),
+              ],
             );
-
-            Reference imageRef = storageRef.child("users/${user.phoneNumber!}/${image.name}");
-
-            await imageRef.putFile(File(image.path));
-
-            String downloadUrl = await imageRef.getDownloadURL();
-
-            user.updatePhotoURL(downloadUrl);
-            userRef.update({
-              "photoUrl": downloadUrl
-            });
 
             if (context.mounted) {
-              Navigator.pop(context);
+              if (croppedImage != null) {
+                updatePfp(
+                  user: user,
+                  path: croppedImage.path,
+                  name: image.name,
+                  context: context
+                );
+              } else {
+                Navigator.pop(context);
+                return;
+              }
             }
-
-            Get.snackbar(
-              "Success!",
-              "Your profile picture has been successfully changed.",
-              colorText: Colors.white,
-              icon: const Icon(Icons.verified_outlined, color: Colors.green),
-              shouldIconPulse: false
-            );
           } else {
             if (context.mounted) {
               Navigator.pop(context);
@@ -96,6 +107,44 @@ class ChangePfp extends StatelessWidget {
       backgroundColor: Colors.white.withOpacity(.9),
       foregroundColor: Colors.black87,
       text: "Change Profile Picture",
+    );
+  }
+
+  Future<void> updatePfp({
+    required User user,
+    required String path,
+    required String name,
+    required BuildContext context
+  }) async {
+    if (user.photoURL != null) {
+      await FirebaseStorage.instance.refFromURL(user.photoURL!).delete();
+    }
+
+    final userRef =  FirebaseFirestore.instance.collection("users").doc(
+      FirebaseAuth.instance.currentUser!.phoneNumber!
+    );
+
+    Reference imageRef = storageRef.child("users/${user.phoneNumber!}/$name");
+
+    await imageRef.putFile(File(path));
+
+    String downloadUrl = await imageRef.getDownloadURL();
+
+    user.updatePhotoURL(downloadUrl);
+    userRef.update({
+      "photoUrl": downloadUrl
+    });
+
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
+
+    Get.snackbar(
+      "Success!",
+      "Your profile picture has been successfully changed.",
+      colorText: Colors.white,
+      icon: const Icon(Icons.verified_outlined, color: Colors.green),
+      shouldIconPulse: false
     );
   }
 }
