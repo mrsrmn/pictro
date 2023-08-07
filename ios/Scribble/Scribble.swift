@@ -66,12 +66,11 @@ struct ScribbleEntryView : View {
           
           ContainerRelativeShape()
             .inset(by: 7)
-            .fill(Color(hex: 0xDD000000))
+            .fill(Color(hex: 0xff222122))
           
             if (entry.scribbImage == nil) {
                 Text("Nothing yet!")
                   .font(Font.custom("Geologica Roman", size: 18).weight(.medium))
-                  .padding()
             } else {
                 NetworkImage(url: URL(string: entry.scribbImage!))
                     .padding(7)
