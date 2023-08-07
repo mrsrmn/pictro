@@ -34,13 +34,13 @@ class AccountPage extends StatelessWidget {
               width: double.infinity,
               child: ChangePfp()
             ),
-            const Expanded(
+            Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Row(
                   children: [
-                    Expanded(child: SafeArea(child: SignOut())),
-                    SizedBox(width: 5),
+                    const Expanded(child: SafeArea(child: SignOut())),
+                    const SizedBox(width: 5),
                     Expanded(child: SafeArea(child: DeleteAccount()))
                   ],
                 )

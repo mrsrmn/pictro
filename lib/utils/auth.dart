@@ -48,4 +48,25 @@ class Authentication extends GetxController {
       }
     }
   }
+
+  Future<AuthValues> reAuthenticate(String smsCode) async {
+    try {
+      UserCredential credential = await auth.currentUser!.reauthenticateWithCredential(PhoneAuthProvider.credential(
+        verificationId: verificationId.value,
+        smsCode: smsCode
+      ));
+
+      return credential.user != null ? AuthValues.success : AuthValues.error;
+    } on FirebaseAuthException catch (e, _) {
+      debugPrint(e.code);
+
+      if (e.code == "unknown") {
+        return AuthValues.unknown;
+      } else if (e.code == "invalid-credential") {
+        return AuthValues.invalidSmsCode;
+      } else {
+        return AuthValues.error;
+      }
+    }
+  }
 }

@@ -97,15 +97,18 @@ class UsernamePage extends StatelessWidget {
                         });
 
                         userPrivateRef.set({
-                          "receivedScribbs": []
+                          "receivedScribbs": [],
+                          "sentScribbsTo": []
                         });
 
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (_) => const HomePage()
-                          ),
-                          (route) => false
-                        );
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (_) => const HomePage()
+                            ),
+                            (route) => false
+                          );
+                        });
 
                         return initialChild;
                       }
