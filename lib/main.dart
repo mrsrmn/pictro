@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:scribble/pages/main_pages/home_page/home_page.dart';
@@ -23,6 +25,11 @@ void main() async {
   await Firebase.initializeApp(
     name: "Scribble",
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: kDebugMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
+    appleProvider: AppleProvider.deviceCheck,
   );
 
   Get.put(Authentication());
