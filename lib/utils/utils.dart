@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'package:scribble/bloc/register/register_bloc.dart';
 
@@ -34,6 +35,15 @@ class Utils {
           ),
         ],
       ),
+    );
+  }
+
+  static updateWidget(String? url, String? sentBy) {
+    HomeWidget.saveWidgetData("scribb_url", url);
+    HomeWidget.saveWidgetData("sent_by", sentBy);
+    HomeWidget.updateWidget(
+      iOSName: "Scribble",
+      androidName: "HomeWidgetProvider"
     );
   }
 }
