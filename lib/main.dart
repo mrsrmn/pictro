@@ -1,20 +1,20 @@
 import 'dart:io';
 
-import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:scribble/pages/main_pages/home_page/home_page.dart';
 
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
+
+import 'package:scribble/pages/main_pages/home_page/home_page.dart';
 import 'package:scribble/pages/main_pages/start_page.dart';
 import 'package:scribble/utils/auth.dart';
 import 'package:scribble/utils/constants.dart';
 import 'package:scribble/firebase_options.dart';
 import 'package:scribble/injection_container.dart' as sl;
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +28,7 @@ void main() async {
   );
 
   await FirebaseAppCheck.instance.activate(
-    androidProvider: kDebugMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
+    androidProvider: kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
     appleProvider: AppleProvider.deviceCheck,
   );
 
