@@ -128,27 +128,22 @@ class _FriendsModalState extends State<FriendsModal> {
                           );
                         }
 
-                        for (var phone in selectedNumbers) {
-                          try {
-                            await Database().putData(
-                              (await widget.drawingController.getImageData())!.buffer.asUint8List(),
-                              phone
-                                .replaceAll(" ", "")
-                                .replaceAll("(", "")
-                                .replaceAll(")", "")
-                            );
-                          } catch (e) {
-                            Navigator.pop(context);
-                            debugPrint(e.toString());
-                            Get.snackbar(
-                              "Error!",
-                              "We couldn't send your Scribb's!",
-                              colorText: Colors.white,
-                              icon: const Icon(Icons.warning_amber, color: Colors.red),
-                              shouldIconPulse: false
-                            );
-                            return;
-                          }
+                        try {
+                          await Database().putData(
+                            (await widget.drawingController.getImageData())!.buffer.asUint8List(),
+                            selectedNumbers
+                          );
+                        } catch (e) {
+                          Navigator.pop(context);
+                          debugPrint(e.toString());
+                          Get.snackbar(
+                            "Error!",
+                            "We couldn't send your Scribb's!",
+                            colorText: Colors.white,
+                            icon: const Icon(Icons.warning_amber, color: Colors.red),
+                            shouldIconPulse: false
+                          );
+                          return;
                         }
 
                         if (mounted) {

@@ -7,31 +7,43 @@ import 'package:uuid/uuid.dart';
 class Database {
   final Reference ref = FirebaseStorage.instance.ref();
 
-  Future<void> putData(Uint8List data, String sentTo) async {
+  Future<void> putData(Uint8List data, List<String> sentToList) async {
     User user = FirebaseAuth.instance.currentUser!;
-    DocumentReference sentToDocumentReference = FirebaseFirestore.instance.collection("users").doc(
-        sentTo
-    ).collection("private").doc("data");
+    String number = user.phoneNumber!;
     DocumentReference senderDocumentReference = FirebaseFirestore.instance.collection("users").doc(
-        user.phoneNumber!
+        number
     ).collection("private").doc("data");
-
-    final photoRef = ref.child(
-      "images/$sentTo/${user.phoneNumber}/${const Uuid().v1()}.png"
-    );
+    Timestamp now = Timestamp.now();
 
     try {
+      final photoRef = ref.child(
+        "images/$number/${const Uuid().v1()}.png"
+      );
+
       await photoRef.putData(data);
-      await sentToDocumentReference.update({
-        "receivedScribbs": FieldValue.arrayUnion([{
-          "sentBy": user.phoneNumber!,
-          "url": await photoRef.getDownloadURL(),
-          "sentAt": Timestamp.now()
-        }])
-      });
-      await senderDocumentReference.update({
-        "sentScribbsTo": FieldValue.arrayUnion([sentTo])
-      });
+      String downloadUrl = await photoRef.getDownloadURL();
+
+      for (var sentTo in sentToList) {
+        sentTo = sentTo
+            .replaceAll(" ", "")
+            .replaceAll("(", "")
+            .replaceAll(")", "");
+
+        DocumentReference sentToDocumentReference = FirebaseFirestore.instance.collection(
+          "users"
+        ).doc(sentTo);
+
+        await sentToDocumentReference.collection("private").doc("data").update({
+          "receivedScribbs": FieldValue.arrayUnion([{
+            "sentBy": number,
+            "url": downloadUrl,
+            "sentAt": now
+          }])
+        });
+        await senderDocumentReference.update({
+          "sentScribbsTo": FieldValue.arrayUnion([sentTo])
+        });
+      }
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -44,6 +56,12 @@ class Database {
       userPhone
     ).collection("private").doc("data");
 
+    final storageRef = FirebaseStorage.instance.ref("images/$userPhone");
+    final listResult = await storageRef.listAll();
+    for (var item in listResult.items) {
+      await item.delete();
+    }
+
     List sentScribbsTo = ((await userDocumentReference.get()).data()! as Map<String, dynamic>)["sentScribbsTo"];
 
     if (sentScribbsTo.isNotEmpty) {
@@ -51,12 +69,6 @@ class Database {
         DocumentReference selectedUserDoc = FirebaseFirestore.instance.collection("users").doc(
             selectedUser
         ).collection("private").doc("data");
-
-        final storageRef = FirebaseStorage.instance.ref("images/$selectedUser/$userPhone");
-        final listResult = await storageRef.listAll();
-        for (var item in listResult.items) {
-          await item.delete();
-        }
 
         List selectedUserReceivedScribbs = ((await selectedUserDoc.get()).data()! as Map)["receivedScribbs"] as List;
         for (Map scribb in selectedUserReceivedScribbs) {
