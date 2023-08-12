@@ -26,6 +26,8 @@ Future<void> startListener() async {
         receivedScribbs.last["url"],
         receivedScribbs.last["sentBy"]
       );
+    } else {
+      Utils.updateWidget(null, null);
     }
   });
 }
