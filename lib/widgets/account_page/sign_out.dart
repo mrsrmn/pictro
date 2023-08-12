@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:scribble/pages/main_pages/start_page.dart';
 import 'package:scribble/utils/constants.dart';
+import 'package:scribble/utils/utils.dart';
 import 'package:scribble/widgets/custom_button.dart';
 
 class SignOut extends StatelessWidget {
@@ -45,6 +46,8 @@ class SignOut extends StatelessWidget {
                     HapticFeedback.lightImpact();
                     FirebaseAuth.instance.signOut().then((_) {
                       Navigator.pop(context);
+
+                      Utils.updateWidget(null, null);
 
                       Navigator.pushAndRemoveUntil(
                         context,
