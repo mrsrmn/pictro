@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 class Database {
   final Reference ref = FirebaseStorage.instance.ref();
@@ -43,6 +46,21 @@ class Database {
         await senderDocumentReference.update({
           "sentScribbsTo": FieldValue.arrayUnion([sentTo])
         });
+
+        await http.post(
+          Uri.parse("https://fcm.googleapis.com/fcm/send"),
+          headers: <String, String>{
+            "Content-Type": "application/json; charset=UTF-8",
+            "Authorization": "key=AAAANXY6FRY:APA91bEQyN5NvOE7kKxc4qRSu_wKDefYQNpD_r5VjJRFQmJ5UCvkCK15xTwX9XSH0kz797vT8Zag0g10XLrogJpdsY-IM6P38RXowBg3cSVn4xq-Pe9Z7p5aVJPuFJjO4a_a65jyhh-T"
+          },
+          body: jsonEncode({
+            "to": "/topics/${sentTo.replaceAll("+", "")}",
+            "notification": {
+              "title": "${user.displayName!} has just shared a new Scribb!",
+              "body": "See what they sent you",
+            },
+          })
+        );
       }
     } catch (e) {
       debugPrint(e.toString());

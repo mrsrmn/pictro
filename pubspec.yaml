@@ -40,6 +40,7 @@ dependencies:
   firebase_app_check: ^0.1.5+1
   image_cropper: ^5.0.0
   http: ^1.1.0
+  firebase_messaging: ^14.6.5
 
 dev_dependencies:
   flutter_test:
