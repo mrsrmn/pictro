@@ -8,6 +8,7 @@ import 'package:home_widget/home_widget.dart';
 import 'package:scribble/widgets/home_page/home_topbar.dart';
 import 'package:scribble/widgets/home_page/received_scribbs/received_scribbs_view.dart';
 import 'package:scribble/widgets/home_page/camera_view.dart';
+import 'package:scribble/widgets/home_page/widget_usage_alert.dart';
 import 'package:scribble/utils/utils.dart';
 
 const String appGroupId = "group.scribblewidget";
@@ -75,6 +76,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             HomeTopBar(),
             SizedBox(height: 15),
+            WidgetUsageAlert(),
+            SizedBox(height: 10),
             CameraView(),
             SizedBox(height: 20),
             Expanded(child: ReceivedScribbsView())
