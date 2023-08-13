@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:scribble/widgets/home_page/home_topbar.dart';
 import 'package:scribble/widgets/home_page/received_scribbs/received_scribbs_view.dart';
@@ -13,24 +14,24 @@ import 'package:scribble/utils/utils.dart';
 
 const String appGroupId = "group.scribblewidget";
 
-Future<void> startListener() async {
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   DocumentReference doc = FirebaseFirestore.instance.collection("users").doc(
     FirebaseAuth.instance.currentUser!.phoneNumber!
   ).collection("private").doc("data");
-  doc.snapshots().listen((DocumentSnapshot documentSnapshot) {
-    List? receivedScribbs = (documentSnapshot.data()! as Map<String, dynamic>)["receivedScribbs"];
 
-    if (receivedScribbs == null) {
-      Utils.updateWidget(null, null);
-    } else if (receivedScribbs.isNotEmpty) {
-      Utils.updateWidget(
-        receivedScribbs.last["url"],
-        receivedScribbs.last["sentBy"]
-      );
-    } else {
-      Utils.updateWidget(null, null);
-    }
-  });
+  List? receivedScribbs = ((await doc.get()).data()! as Map<String, dynamic>)["receivedScribbs"];
+
+  if (receivedScribbs == null) {
+    Utils.updateWidget(null, null);
+  } else if (receivedScribbs.isNotEmpty) {
+    Utils.updateWidget(
+      receivedScribbs.last["url"],
+      receivedScribbs.last["sentBy"]
+    );
+  } else {
+    Utils.updateWidget(null, null);
+  }
 }
 
 class HomePage extends StatefulWidget {
@@ -55,13 +56,31 @@ class _HomePageState extends State<HomePage> {
     requestContactPermission();
   }
 
+  void setupCloudMessaging() async {
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    FirebaseMessaging.instance.subscribeToTopic(
+      FirebaseAuth.instance.currentUser!.phoneNumber!.replaceAll("+", "")
+    );
+    FirebaseMessaging.onMessage.listen(_firebaseMessagingBackgroundHandler);
+  }
+
   @override
   void initState() {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     super.initState();
 
     HomeWidget.setAppGroupId(appGroupId);
     requestPermissions();
-    startListener();
+    setupCloudMessaging();
   }
 
   @override

@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
 import 'package:scribble/pages/main_pages/home_page/home_page.dart';
@@ -21,6 +22,7 @@ void main() async {
 
   // Initialize Injection Container
   await sl.init();
+  await dotenv.load(fileName: ".env");
 
   await Firebase.initializeApp(
     name: "Scribble",
