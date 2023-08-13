@@ -39,6 +39,20 @@ class ColorSelector extends StatelessWidget {
         IconButton(
           onPressed: () {
             HapticFeedback.lightImpact();
+            drawingController.setStyle(color: Colors.black);
+          },
+          icon: const Icon(Icons.circle_rounded, color: Colors.black, size: 30)
+        ),
+        IconButton(
+          onPressed: () {
+            HapticFeedback.lightImpact();
+            drawingController.setStyle(color: Colors.white);
+          },
+          icon: const Icon(Icons.circle_rounded, color: Colors.white, size: 30)
+        ),
+        IconButton(
+          onPressed: () {
+            HapticFeedback.lightImpact();
             drawingController.setStyle(color: Colors.red);
           },
           icon: const Icon(Icons.circle_rounded, color: Colors.red, size: 30)
