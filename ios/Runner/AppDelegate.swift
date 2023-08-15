@@ -23,7 +23,7 @@ import WidgetKit
           }
           WidgetCenter.shared.getCurrentConfigurations { [result] widgetResult in
               if case let .success(configurations) = widgetResult {
-                  if configurations.contains(where: { $0.kind == "group.scribblewidget" }) {
+                  if configurations.contains(where: { $0.kind == "Scribble" }) {
                       result(Bool(true))
                   } else {
                       result(Bool(false))
