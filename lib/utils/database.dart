@@ -28,11 +28,6 @@ class Database {
       String downloadUrl = await photoRef.getDownloadURL();
 
       for (var sentTo in sentToList) {
-        sentTo = sentTo
-            .replaceAll(" ", "")
-            .replaceAll("(", "")
-            .replaceAll(")", "");
-
         DocumentReference sentToDocumentReference = FirebaseFirestore.instance.collection(
           "users"
         ).doc(sentTo);

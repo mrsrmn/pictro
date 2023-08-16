@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -76,11 +77,23 @@ class _FriendsModalState extends State<FriendsModal> {
                       );
                     }
 
+                    String currentNumber = FirebaseAuth.instance.currentUser!.phoneNumber!;
+                    String phoneValue;
+
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       itemCount: contacts.length,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
+                        phoneValue = contacts[index].phones![0].value!
+                            .replaceAll(" ", "")
+                            .replaceAll("(", "")
+                            .replaceAll(")", "");
+
+                        if (phoneValue == currentNumber) {
+                          return const SizedBox();
+                        }
+
                         return StatefulBuilder(
                           builder: (context, StateSetter setState) {
                             return CheckboxListTile(
