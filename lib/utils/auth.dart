@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:scribble/utils/auth_values.dart';
+import 'package:pictro/utils/auth_values.dart';
 
 class Authentication extends GetxController {
   static Authentication get instance => Get.find();

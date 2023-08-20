@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 
-import 'package:scribble/widgets/custom_button.dart';
-import 'package:scribble/widgets/image_page/friends_modal.dart';
-import 'package:scribble/widgets/image_page/paint_content_selector.dart';
-import 'package:scribble/widgets/image_page/color_selector.dart';
+import 'package:pictro/widgets/custom_button.dart';
+import 'package:pictro/widgets/image_page/friends_modal.dart';
+import 'package:pictro/widgets/image_page/paint_content_selector.dart';
+import 'package:pictro/widgets/image_page/color_selector.dart';
 
 class ImagePage extends StatelessWidget {
   final Uint8List image;

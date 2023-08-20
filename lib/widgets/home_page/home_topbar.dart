@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:scribble/pages/main_pages/home_page/account_page.dart';
-import 'package:scribble/widgets/scribble_name.dart';
+import 'package:pictro/pages/main_pages/home_page/account_page.dart';
+import 'package:pictro/widgets/pictro_name.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -66,7 +66,7 @@ class _HomeTopBarState extends State<HomeTopBar> {
                       applicationVersion: "1.0.0"
                     );
                   },
-                  child: ScribbleName(fontSize: 25)
+                  child: PictroName(fontSize: 25)
                 ),
               ),
             ),

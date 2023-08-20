@@ -32,14 +32,14 @@ class Database {
         ).doc(sentTo);
 
         await sentToDocumentReference.collection("private").doc("data").update({
-          "receivedScribbs": FieldValue.arrayUnion([{
+          "receivedPictrs": FieldValue.arrayUnion([{
             "sentBy": number,
             "url": downloadUrl,
             "sentAt": now
           }])
         });
         await senderDocumentReference.update({
-          "sentScribbsTo": FieldValue.arrayUnion([sentTo])
+          "sentPictrsTo": FieldValue.arrayUnion([sentTo])
         });
 
         await http.post(
@@ -75,23 +75,23 @@ class Database {
       await item.delete();
     }
 
-    List sentScribbsTo = ((await userDocumentReference.get()).data()! as Map<String, dynamic>)["sentScribbsTo"];
+    List sentPictrsTo = ((await userDocumentReference.get()).data()! as Map<String, dynamic>)["sentPictrsTo"];
 
-    if (sentScribbsTo.isNotEmpty) {
-      for (var selectedUser in sentScribbsTo) {
+    if (sentPictrsTo.isNotEmpty) {
+      for (var selectedUser in sentPictrsTo) {
         DocumentReference selectedUserDoc = FirebaseFirestore.instance.collection("users").doc(
             selectedUser
         ).collection("private").doc("data");
 
-        List selectedUserReceivedScribbs = ((await selectedUserDoc.get()).data()! as Map)["receivedScribbs"] as List;
-        for (Map scribb in selectedUserReceivedScribbs) {
+        List selectedUserreceivedPictrs = ((await selectedUserDoc.get()).data()! as Map)["receivedPictrs"] as List;
+        for (Map scribb in selectedUserreceivedPictrs) {
           if (scribb["sentBy"] == userPhone) {
-            selectedUserReceivedScribbs.remove(scribb);
+            selectedUserreceivedPictrs.remove(scribb);
           }
         }
 
         selectedUserDoc.update({
-          "receivedScribbs": selectedUserReceivedScribbs
+          "receivedPictrs": selectedUserreceivedPictrs
         });
       }
     }

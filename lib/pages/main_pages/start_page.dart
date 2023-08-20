@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/route_manager.dart';
 
-import 'package:scribble/pages/register/register.dart';
-import 'package:scribble/utils/constants.dart';
-import 'package:scribble/widgets/custom_button.dart';
-import 'package:scribble/widgets/scribble_name.dart';
+import 'package:pictro/pages/register/register.dart';
+import 'package:pictro/utils/constants.dart';
+import 'package:pictro/widgets/custom_button.dart';
+import 'package:pictro/widgets/pictro_name.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key});
@@ -52,12 +52,12 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin{
               children: [
                 Align(
                   alignment: Alignment.topCenter,
-                  child: ScribbleName()
+                  child: PictroName()
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10, bottom: 15),
                   child: Text(
-                    "Connect with loved ones through art, without leaving your homescreen.",
+                    "Connect with loved ones through art, without leaving your home screen.",
                     style: TextStyle(fontFamily: geologicaMedium, fontSize: 20, color: Colors.white.withOpacity(.9)),
                     textAlign: TextAlign.center,
                   ),

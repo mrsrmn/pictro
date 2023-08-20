@@ -5,27 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:scribble/widgets/home_page/received_scribbs/received_scribb_details.dart';
+import 'package:pictro/widgets/home_page/received_pictrs/received_pictr_details.dart';
 
-class ReceivedScribbsView extends StatefulWidget {
-  const ReceivedScribbsView({super.key});
+class ReceivedPictrsView extends StatefulWidget {
+  const ReceivedPictrsView({super.key});
 
   @override
-  State<ReceivedScribbsView> createState() => _ReceivedScribbsViewState();
+  State<ReceivedPictrsView> createState() => _ReceivedPictrsViewState();
 }
 
-class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
+class _ReceivedPictrsViewState extends State<ReceivedPictrsView> {
   late Future<List?> future;
 
-  Future<List?> getReceivedScribbs() async {
+  Future<List?> getReceivedPictrs() async {
     try {
       DocumentReference doc = FirebaseFirestore.instance.collection("users").doc(
           FirebaseAuth.instance.currentUser!.phoneNumber!
       ).collection("private").doc("data");
 
-      List receivedScribbs = ((await doc.get()).data()! as Map<String, dynamic>)["receivedScribbs"];
+      List receivedPictrs = ((await doc.get()).data()! as Map<String, dynamic>)["receivedPictrs"];
 
-      return receivedScribbs;
+      return receivedPictrs;
     } catch (e) {
       debugPrint(e.toString());
       return null;
@@ -34,7 +34,7 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
 
   @override
   void initState() {
-    future = getReceivedScribbs();
+    future = getReceivedPictrs();
     super.initState();
   }
 
@@ -48,28 +48,28 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CupertinoActivityIndicator(color: Colors.white));
         }
-        List? receivedScribbs = snapshot.data;
+        List? receivedPictrs = snapshot.data;
 
-        if (receivedScribbs == null) {
+        if (receivedPictrs == null) {
           return Center(
-            child: Text("There was an error while fetching received Scribbs!", style: TextStyle(
+            child: Text("There was an error while fetching received Pictrs!", style: TextStyle(
               color: Colors.white.withOpacity(.9),
             ), textAlign: TextAlign.center),
           );
         }
 
-        if (receivedScribbs.isEmpty) {
+        if (receivedPictrs.isEmpty) {
           return Center(
-            child: Text("You don't have any received Scribbs!", style: TextStyle(
+            child: Text("You don't have any received Pictrs!", style: TextStyle(
               color: Colors.white.withOpacity(.9)
             )),
           );
         }
 
-        List<Widget> scribbsView = [];
+        List<Widget> pictrsView = [];
 
-        for (var scribb in receivedScribbs.reversed) {
-          scribbsView.add(SizedBox(
+        for (var pictr in receivedPictrs.reversed) {
+          pictrsView.add(SizedBox(
             width: size,
             height: size,
             child: GestureDetector(
@@ -79,10 +79,10 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
                 showGeneralDialog(
                   context: context,
                   pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-                    return ReceivedScribbDetails(
-                      sentBy: scribb["sentBy"]!,
-                      url: scribb["url"]!,
-                      sentAt: scribb["sentAt"],
+                    return ReceivedPictrDetails(
+                      sentBy: pictr["sentBy"]!,
+                      url: pictr["url"]!,
+                      sentAt: pictr["sentAt"],
                     );
                   },
                 );
@@ -98,7 +98,7 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(18),
                   child: CachedNetworkImage(
-                    imageUrl: scribb["url"]!,
+                    imageUrl: pictr["url"]!,
                     fit: BoxFit.fill,
                     width: size,
                     height: size,
@@ -121,7 +121,7 @@ class _ReceivedScribbsViewState extends State<ReceivedScribbsView> {
               runAlignment: WrapAlignment.start,
               runSpacing: 10,
               spacing: 10,
-              children: scribbsView,
+              children: pictrsView,
             ),
           ),
         );

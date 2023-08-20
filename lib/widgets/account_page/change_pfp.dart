@@ -10,8 +10,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
-import 'package:scribble/widgets/custom_button.dart';
-import 'package:scribble/utils/image_picker.dart';
+import 'package:pictro/widgets/custom_button.dart';
+import 'package:pictro/utils/image_picker.dart';
 
 class ChangePfp extends StatelessWidget {
   final ImageSelector imageSelector = ImageSelector();

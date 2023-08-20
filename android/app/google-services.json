@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:229616784662:android:56bcf8329af6c8696cec37",
+        "mobilesdk_app_id": "1:229616784662:android:b0369934301cd2696cec37",
         "android_client_info": {
-          "package_name": "com.emirs.scribble"
+          "package_name": "com.emirs.pictro"
         }
       },
       "oauth_client": [
@@ -32,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "229616784662-9acbr9j3j4mgg8evivme7crbitvqiu99.apps.googleusercontent.com",
+              "client_id": "229616784662-4bnlmop2bunnk368vstc1m5rigi17vuj.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.emirs.scribble"
+                "bundle_id": "com.emirs.pictro"
               }
             }
           ]

@@ -13,7 +13,7 @@ import WidgetKit
       
       let controller: FlutterViewController = window?.rootViewController as! FlutterViewController
       let widgetChannel = FlutterMethodChannel(
-        name: "widgets.emirs.scribble",
+        name: "widgets.emirs.pictro",
         binaryMessenger: controller.binaryMessenger
       )
       widgetChannel.setMethodCallHandler({(call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
@@ -23,7 +23,7 @@ import WidgetKit
           }
           WidgetCenter.shared.getCurrentConfigurations { [result] widgetResult in
               if case let .success(configurations) = widgetResult {
-                  if configurations.contains(where: { $0.kind == "Scribble" }) {
+                  if configurations.contains(where: { $0.kind == "Pictro" }) {
                       result(Bool(true))
                   } else {
                       result(Bool(false))

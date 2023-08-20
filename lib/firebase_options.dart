@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBFhULZXuYHYejdWxmKvtROBbXYSyHuHY0',
-    appId: '1:229616784662:android:56bcf8329af6c8696cec37',
+    appId: '1:229616784662:android:b0369934301cd2696cec37',
     messagingSenderId: '229616784662',
     projectId: 'scribble-98cba',
     databaseURL: 'https://scribble-98cba-default-rtdb.europe-west1.firebasedatabase.app',
@@ -60,12 +60,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBACWpW9Dt5fw1GrfCoEAfrT6thCR--Jps',
-    appId: '1:229616784662:ios:c8c944c9166179db6cec37',
+    appId: '1:229616784662:ios:75f7167dd106332f6cec37',
     messagingSenderId: '229616784662',
     projectId: 'scribble-98cba',
     databaseURL: 'https://scribble-98cba-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'scribble-98cba.appspot.com',
-    iosClientId: '229616784662-9acbr9j3j4mgg8evivme7crbitvqiu99.apps.googleusercontent.com',
-    iosBundleId: 'com.emirs.scribble',
+    iosClientId: '229616784662-4bnlmop2bunnk368vstc1m5rigi17vuj.apps.googleusercontent.com',
+    iosBundleId: 'com.emirs.pictro',
   );
 }

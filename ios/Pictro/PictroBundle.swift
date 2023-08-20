@@ -1,6 +1,6 @@
 //
-//  ScribbleBundle.swift
-//  Scribble
+//  PictroBundle.swift
+//  Pictro
 //
 //  Created by Emir Sürmen on 31.07.2023.
 //
@@ -9,8 +9,8 @@ import WidgetKit
 import SwiftUI
 
 @main
-struct ScribbleBundle: WidgetBundle {
+struct PictroBundle: WidgetBundle {
     var body: some Widget {
-        Scribble()
+        Pictro()
     }
 }

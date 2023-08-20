@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:scribble/widgets/account_page/change_username.dart';
-import 'package:scribble/widgets/account_page/change_pfp.dart';
-import 'package:scribble/widgets/account_page/sign_out.dart';
-import 'package:scribble/widgets/account_page/delete_account.dart';
+import 'package:pictro/widgets/account_page/change_username.dart';
+import 'package:pictro/widgets/account_page/change_pfp.dart';
+import 'package:pictro/widgets/account_page/sign_out.dart';
+import 'package:pictro/widgets/account_page/delete_account.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});

@@ -7,12 +7,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:intl/intl.dart';
 
-class ReceivedScribbDetails extends StatelessWidget {
+class ReceivedPictrDetails extends StatelessWidget {
   final String sentBy;
   final String url;
   final Timestamp sentAt;
 
-  const ReceivedScribbDetails({
+  const ReceivedPictrDetails({
     super.key,
     required this.sentBy,
     required this.url,

@@ -1,6 +1,6 @@
 //
-//  Scribble.swift
-//  Scribble
+//  Pictro.swift
+//  pictro
 //
 //  Created by Emir Sürmen on 31.07.2023.
 //
@@ -9,21 +9,21 @@ import WidgetKit
 import SwiftUI
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> ScribbleEntry {
-        ScribbleEntry(date: Date(), scribbImage: nil, sentBy: nil)
+    func placeholder(in context: Context) -> PictroEntry {
+        PictroEntry(date: Date(), pictrImage: nil, sentBy: nil)
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (ScribbleEntry) -> ()) {
-        let entry: ScribbleEntry
+    func getSnapshot(in context: Context, completion: @escaping (PictroEntry) -> ()) {
+        let entry: PictroEntry
         
         if (context.isPreview) {
             entry = placeholder(in: context)
         } else {
-            let userDefaults = UserDefaults(suiteName: "group.scribblewidget")
-            let scribbUrl = userDefaults?.string(forKey: "scribb_url")
+            let userDefaults = UserDefaults(suiteName: "group.pictrowidget")
+            let pictrUrl = userDefaults?.string(forKey: "pictr_url")
             let sentBy = userDefaults?.string(forKey: "sent_by")
 
-            entry = ScribbleEntry(date: Date(), scribbImage: scribbUrl, sentBy: sentBy)
+            entry = PictroEntry(date: Date(), pictrImage: pictrUrl, sentBy: sentBy)
         }
         completion(entry)
     }
@@ -36,13 +36,13 @@ struct Provider: TimelineProvider {
     }
 }
 
-struct ScribbleEntry: TimelineEntry {
+struct PictroEntry: TimelineEntry {
     var date: Date
-    var scribbImage: String?
+    var pictrImage: String?
     var sentBy: String?
 }
 
-struct ScribbleEntryView : View {
+struct PictroEntryView : View {
     var entry: Provider.Entry
     
     var bundle: URL {
@@ -68,33 +68,33 @@ struct ScribbleEntryView : View {
             .inset(by: 7)
             .fill(Color(hex: 0xff222122))
           
-            if (entry.scribbImage == nil) {
+            if (entry.pictrImage == nil) {
                 Text("Nothing yet!")
                   .font(Font.custom("Geologica Roman", size: 18).weight(.medium))
             } else {
-                NetworkImage(url: URL(string: entry.scribbImage!))
+                NetworkImage(url: URL(string: entry.pictrImage!))
                     .padding(7)
             }
         }
     }
 }
 
-struct Scribble: Widget {
-    let kind: String = "Scribble"
+struct Pictro: Widget {
+    let kind: String = "Pictro"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            ScribbleEntryView(entry: entry)
+            PictroEntryView(entry: entry)
         }
         .supportedFamilies([.systemSmall])
-        .configurationDisplayName("See Scribbs")
-        .description("Use this widget to see Scribb's your friends sent you!")
+        .configurationDisplayName("See Pictr's")
+        .description("Use this widget to see Pictr's your friends sent you!")
     }
 }
 
-struct Scribble_Previews: PreviewProvider {
+struct Pictro_Previews: PreviewProvider {
     static var previews: some View {
-        ScribbleEntryView(entry: ScribbleEntry(date: Date()))
+        PictroEntryView(entry: PictroEntry(date: Date()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
@@ -134,7 +134,7 @@ struct NetworkImage: View {
             startPoint: .leading,
             endPoint: .trailing
           ).mask {
-              Text("Scribble")
+              Text("Pictro")
                 .font(Font.custom("Geologica Roman", size: 20).weight(.medium))
                 .padding()
           }

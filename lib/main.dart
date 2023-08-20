@@ -10,12 +10,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
-import 'package:scribble/pages/main_pages/home_page/home_page.dart';
-import 'package:scribble/pages/main_pages/start_page.dart';
-import 'package:scribble/utils/auth.dart';
-import 'package:scribble/utils/constants.dart';
-import 'package:scribble/firebase_options.dart';
-import 'package:scribble/injection_container.dart' as sl;
+import 'package:pictro/pages/main_pages/home_page/home_page.dart';
+import 'package:pictro/pages/main_pages/start_page.dart';
+import 'package:pictro/utils/auth.dart';
+import 'package:pictro/utils/constants.dart';
+import 'package:pictro/firebase_options.dart';
+import 'package:pictro/injection_container.dart' as sl;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
 
   await Firebase.initializeApp(
-    name: "Scribble",
+    name: "pictro",
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: "Scribble",
+      title: "Pictro",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black87, secondary: Colors.black),
         useMaterial3: true,

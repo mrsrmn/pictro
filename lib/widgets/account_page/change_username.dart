@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-import 'package:scribble/bloc/username/username_bloc.dart';
-import 'package:scribble/injection_container.dart';
-import 'package:scribble/utils/constants.dart';
-import 'package:scribble/widgets/custom_button.dart';
-import 'package:scribble/widgets/custom_text_field.dart';
+import 'package:pictro/bloc/username/username_bloc.dart';
+import 'package:pictro/injection_container.dart';
+import 'package:pictro/utils/constants.dart';
+import 'package:pictro/widgets/custom_button.dart';
+import 'package:pictro/widgets/custom_text_field.dart';
 
 class ChangeUsername extends StatelessWidget {
   final TextEditingController controller = TextEditingController();

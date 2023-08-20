@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:scribble/utils/constants.dart';
+import 'package:pictro/utils/constants.dart';
 
 class CustomButton extends StatelessWidget {
   final Function() onPressed;

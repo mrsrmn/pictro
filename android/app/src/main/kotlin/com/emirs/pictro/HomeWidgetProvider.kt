@@ -1,4 +1,4 @@
-package com.emirs.scribble
+package com.emirs.pictro
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -21,7 +21,7 @@ class HomeWidgetProvider : HomeWidgetProvider() {
                 )
                 setOnClickPendingIntent(R.id.widget_container, pendingIntent)
 
-                val scribbUrl: String? = widgetData.getString("scribb_url", null)
+                val scribbUrl: String? = widgetData.getString("pictr_url", null)
 
                 if (scribbUrl == null) {
                     setViewVisibility(R.id.default_text, View.VISIBLE)

@@ -5,15 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-import 'package:scribble/pages/register/sms_code_page.dart';
-import 'package:scribble/widgets/custom_button.dart';
-import 'package:scribble/widgets/phone_field.dart';
-import 'package:scribble/utils/region.dart';
-import 'package:scribble/utils/utils.dart';
-import 'package:scribble/utils/auth.dart';
-import 'package:scribble/utils/constants.dart';
-import 'package:scribble/injection_container.dart';
-import 'package:scribble/bloc/register/register_bloc.dart';
+import 'package:pictro/pages/register/sms_code_page.dart';
+import 'package:pictro/widgets/custom_button.dart';
+import 'package:pictro/widgets/phone_field.dart';
+import 'package:pictro/utils/region.dart';
+import 'package:pictro/utils/utils.dart';
+import 'package:pictro/utils/auth.dart';
+import 'package:pictro/utils/constants.dart';
+import 'package:pictro/injection_container.dart';
+import 'package:pictro/bloc/register/register_bloc.dart';
 
 
 class Register extends StatelessWidget {
@@ -61,7 +61,11 @@ class Register extends StatelessWidget {
                         });
                       } else if (state is RegisterPhoneValid) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          Authentication.instance.sendSMS(_controller.text);
+                          try {
+                            Authentication.instance.sendSMS(_controller.text);
+                          } catch (e) {
+                            print(e.toString());
+                          }
                           Get.to(() => const SmsCodePage());
                         });
                       }

@@ -1,4 +1,4 @@
-package com.emirs.scribble
+package com.emirs.pictro
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
@@ -8,7 +8,7 @@ import io.flutter.plugin.common.MethodChannel
 
 
 class MainActivity: FlutterActivity() {
-    private val channel = "widgets.emirs.scribble"
+    private val channel = "widgets.emirs.pictro"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

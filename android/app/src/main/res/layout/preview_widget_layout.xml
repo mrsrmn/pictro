@@ -17,5 +17,5 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="#E9E9E9"
-        tools:text="Scribble" />
+        tools:text="Pictro" />
 </LinearLayout>

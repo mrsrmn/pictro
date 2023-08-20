@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
-import 'package:scribble/utils/region.dart';
-import 'package:scribble/widgets/custom_text_field.dart';
+import 'package:pictro/utils/region.dart';
+import 'package:pictro/widgets/custom_text_field.dart';
 
 class PhoneField extends StatelessWidget {
   final TextEditingController controller;

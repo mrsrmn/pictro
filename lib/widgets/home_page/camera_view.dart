@@ -8,7 +8,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:native_image_cropper/native_image_cropper.dart' as img;
 
-import 'package:scribble/pages/main_pages/home_page/image_page.dart';
+import 'package:pictro/pages/main_pages/home_page/image_page.dart';
 
 class CameraView extends StatefulWidget {
   const CameraView({super.key});

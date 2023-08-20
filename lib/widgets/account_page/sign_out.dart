@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:scribble/pages/main_pages/start_page.dart';
-import 'package:scribble/utils/constants.dart';
-import 'package:scribble/utils/utils.dart';
-import 'package:scribble/widgets/custom_button.dart';
+import 'package:pictro/pages/main_pages/start_page.dart';
+import 'package:pictro/utils/constants.dart';
+import 'package:pictro/utils/utils.dart';
+import 'package:pictro/widgets/custom_button.dart';
 
 class SignOut extends StatelessWidget {
   const SignOut({super.key});

@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import 'package:scribble/utils/utils.dart';
+import 'package:pictro/utils/utils.dart';
 
 class WidgetUsageAlert extends StatefulWidget {
   const WidgetUsageAlert({super.key});
@@ -75,7 +75,7 @@ class _WidgetUsageAlertState extends State<WidgetUsageAlert> {
                     const Padding(
                       padding: EdgeInsets.only(left: 5, right: 5),
                       child: AutoSizeText(
-                        "By adding the widget, you can fully experience everything that Scribble has to offer.",
+                        "By adding the widget, you can fully experience everything that Pictro has to offer.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 12

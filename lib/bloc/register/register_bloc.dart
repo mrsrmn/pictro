@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:scribble/utils/utils.dart';
+import 'package:pictro/utils/utils.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';

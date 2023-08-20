@@ -6,13 +6,13 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:scribble/widgets/home_page/home_topbar.dart';
-import 'package:scribble/widgets/home_page/received_scribbs/received_scribbs_view.dart';
-import 'package:scribble/widgets/home_page/camera_view.dart';
-import 'package:scribble/widgets/home_page/widget_usage_alert.dart';
-import 'package:scribble/utils/utils.dart';
+import 'package:pictro/widgets/home_page/home_topbar.dart';
+import 'package:pictro/widgets/home_page/received_pictrs/received_pictr_view.dart';
+import 'package:pictro/widgets/home_page/camera_view.dart';
+import 'package:pictro/widgets/home_page/widget_usage_alert.dart';
+import 'package:pictro/utils/utils.dart';
 
-const String appGroupId = "group.scribblewidget";
+const String appGroupId = "group.pictrowidget";
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -20,14 +20,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     FirebaseAuth.instance.currentUser!.phoneNumber!
   ).collection("private").doc("data");
 
-  List? receivedScribbs = ((await doc.get()).data()! as Map<String, dynamic>)["receivedScribbs"];
+  List? receivedPictrs = ((await doc.get()).data()! as Map<String, dynamic>)["receivedPictrs"];
 
-  if (receivedScribbs == null) {
+  if (receivedPictrs == null) {
     Utils.updateWidget(null, null);
-  } else if (receivedScribbs.isNotEmpty) {
+  } else if (receivedPictrs.isNotEmpty) {
     Utils.updateWidget(
-      receivedScribbs.last["url"],
-      receivedScribbs.last["sentBy"]
+      receivedPictrs.last["url"],
+      receivedPictrs.last["sentBy"]
     );
   } else {
     Utils.updateWidget(null, null);
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 10),
             CameraView(),
             SizedBox(height: 20),
-            Expanded(child: ReceivedScribbsView())
+            Expanded(child: ReceivedPictrsView())
           ],
         ),
       ),

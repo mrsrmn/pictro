@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:scribble/utils/constants.dart';
+import 'package:pictro/utils/constants.dart';
 
-class ScribbleName extends StatelessWidget {
+class PictroName extends StatelessWidget {
   final LinearGradient gradient = LinearGradient(colors: [
     Colors.purple.shade400,
     Colors.purple.shade700,
@@ -10,7 +10,7 @@ class ScribbleName extends StatelessWidget {
 
   final double? fontSize;
 
-  ScribbleName({super.key, this.fontSize});
+  PictroName({super.key, this.fontSize});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ScribbleName extends StatelessWidget {
         Rect.fromLTWH(0, 0, bounds.width, bounds.height),
       ),
       child: Text(
-        "Scribble",
+        "Pictro",
         style: TextStyle(
           fontFamily: geologicaMedium,
           fontSize: fontSize ?? 40,

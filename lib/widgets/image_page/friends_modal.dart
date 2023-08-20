@@ -8,9 +8,9 @@ import 'package:flutter_drawing_board/flutter_drawing_board.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:scribble/pages/main_pages/home_page/home_page.dart';
-import 'package:scribble/utils/database.dart';
-import 'package:scribble/widgets//custom_button.dart';
+import 'package:pictro/pages/main_pages/home_page/home_page.dart';
+import 'package:pictro/utils/database.dart';
+import 'package:pictro/widgets//custom_button.dart';
 
 class FriendsModal extends StatefulWidget {
   final DrawingController drawingController;
@@ -73,7 +73,7 @@ class _FriendsModalState extends State<FriendsModal> {
 
                     if (contacts.isEmpty) {
                       return const Center(
-                        child: Text("You don't have any contacts that use Scribble!"),
+                        child: Text("You don't have any contacts that use Pictro!"),
                       );
                     }
 

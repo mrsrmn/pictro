@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:scribble/utils/auth.dart';
-import 'package:scribble/utils/auth_values.dart';
-import 'package:scribble/widgets/custom_button.dart';
-import 'package:scribble/widgets/custom_text_field.dart';
-import 'package:scribble/pages/main_pages/start_page.dart';
-import 'package:scribble/pages/register/username_page.dart';
-import 'package:scribble/pages/main_pages/home_page/home_page.dart';
+import 'package:pictro/utils/auth.dart';
+import 'package:pictro/utils/auth_values.dart';
+import 'package:pictro/widgets/custom_button.dart';
+import 'package:pictro/widgets/custom_text_field.dart';
+import 'package:pictro/pages/main_pages/start_page.dart';
+import 'package:pictro/pages/register/username_page.dart';
+import 'package:pictro/pages/main_pages/home_page/home_page.dart';
 
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
