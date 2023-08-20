@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
 class Database {
@@ -21,7 +20,7 @@ class Database {
 
     try {
       final photoRef = ref.child(
-        "images/$number/${const Uuid().v1()}.png"
+        "images/$number/${now.millisecondsSinceEpoch}.png"
       );
 
       await photoRef.putData(data);

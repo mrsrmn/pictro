@@ -31,7 +31,7 @@ void main() async {
 
   await FirebaseAppCheck.instance.activate(
     androidProvider: kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
-    appleProvider: kDebugMode ? AppleProvider.debug : AppleProvider.deviceCheck,
+    appleProvider: AppleProvider.deviceCheck,
   );
 
   Get.put(Authentication());
