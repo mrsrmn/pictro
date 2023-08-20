@@ -98,17 +98,26 @@ class _FriendsModalState extends State<FriendsModal> {
                           builder: (context, StateSetter setState) {
                             return CheckboxListTile(
                               contentPadding: EdgeInsets.zero,
-                              title: Text(contacts[index].displayName!),
+                              title: Text(
+                                contacts[index].displayName!,
+                                style: const TextStyle(
+                                  color: Colors.white
+                                ),
+                              ),
                               value: isChecked,
                               onChanged: (bool? value) {
                                 HapticFeedback.lightImpact();
                                 setState(() {
                                   isChecked = value;
+                                  phoneValue = contacts[index].phones![0].value!
+                                      .replaceAll(" ", "")
+                                      .replaceAll("(", "")
+                                      .replaceAll(")", "");
                                 });
                                 if (isChecked!) {
-                                  selectedNumbers.add(contacts[index].phones![0].value!);
+                                  selectedNumbers.add(phoneValue);
                                 } else {
-                                  selectedNumbers.remove(contacts[index].phones![0].value!);
+                                  selectedNumbers.remove(phoneValue);
                                 }
                               },
                             );
@@ -127,6 +136,8 @@ class _FriendsModalState extends State<FriendsModal> {
                   width: double.infinity,
                   child: CustomButton(
                     onPressed: () async {
+                      HapticFeedback.lightImpact();
+
                       if (selectedNumbers.isNotEmpty) {
                         if (context.mounted) {
                           showGeneralDialog(
@@ -147,8 +158,10 @@ class _FriendsModalState extends State<FriendsModal> {
                             selectedNumbers
                           );
                         } catch (e) {
-                          Navigator.pop(context);
-                          debugPrint(e.toString());
+                          if (mounted) {
+                            Navigator.pop(context);
+                            debugPrint(e.toString());
+                          }
                           Get.snackbar(
                             "Error!",
                             "We couldn't send your Scribb's!",
@@ -176,8 +189,6 @@ class _FriendsModalState extends State<FriendsModal> {
                           );
                         }
                       } else {
-                        Navigator.pop(context);
-
                         Get.snackbar(
                           "Error!",
                           "Please select at least 1 person to send your Scribb to!",
