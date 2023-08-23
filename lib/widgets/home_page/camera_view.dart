@@ -52,7 +52,6 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
   }
 
   Future<void> _checkPermission(Permission permission) async {
-    debugPrint("hello");
     final status = await permission.request();
 
     if (status == PermissionStatus.granted) {
@@ -91,7 +90,6 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    debugPrint("negawaat");
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed && !_checkingPermission) {
       _checkingPermission = true;
