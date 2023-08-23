@@ -1,4 +1,6 @@
 PODS:
+  - app_settings (4.3.0):
+    - Flutter
   - camera_avfoundation (0.0.1):
     - Flutter
   - cloud_firestore (4.8.4):
@@ -150,6 +152,7 @@ PODS:
   - TOCropViewController (2.6.1)
 
 DEPENDENCIES:
+  - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
@@ -193,6 +196,8 @@ SPEC REPOS:
     - TOCropViewController
 
 EXTERNAL SOURCES:
+  app_settings:
+    :path: ".symlinks/plugins/app_settings/ios"
   camera_avfoundation:
     :path: ".symlinks/plugins/camera_avfoundation/ios"
   cloud_firestore:
@@ -237,6 +242,7 @@ CHECKOUT OPTIONS:
     :tag: 10.12.0
 
 SPEC CHECKSUMS:
+  app_settings: ee4ae4d1c9a907a23b81c40e5c56a5ca8a20a62b
   camera_avfoundation: 3125e8cd1a4387f6f31c6c63abb8a55892a9eeeb
   cloud_firestore: 005e157ad342dbfb2e461cb111a9020aa71bfb22
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
@@ -276,6 +282,6 @@ SPEC CHECKSUMS:
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
 
-PODFILE CHECKSUM: ac70dab703e84532b0cea777d26e815af80a1ec9
+PODFILE CHECKSUM: 7e18e055c4cf0a87144e0b89bb6a92942db28282
 
 COCOAPODS: 1.12.1
