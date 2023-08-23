@@ -48,14 +48,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  requestPermissions() async {
-    if (await Permission.camera.request().isGranted) {
-      requestContactPermission();
-      return;
-    }
-    requestContactPermission();
-  }
-
   void setupCloudMessaging() async {
     await FirebaseMessaging.instance.requestPermission(
       alert: true,
@@ -79,7 +71,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     HomeWidget.setAppGroupId(appGroupId);
-    requestPermissions();
+    requestContactPermission();
     setupCloudMessaging();
   }
 

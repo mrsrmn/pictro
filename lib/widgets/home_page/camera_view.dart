@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:native_image_cropper/native_image_cropper.dart' as img;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:app_settings/app_settings.dart';
 
 import 'package:pictro/pages/main_pages/home_page/image_page.dart';
 
@@ -17,9 +19,12 @@ class CameraView extends StatefulWidget {
   State<CameraView> createState() => _CameraViewState();
 }
 
-class _CameraViewState extends State<CameraView> {
+class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
   late CameraController controller;
   late List<CameraDescription> _availableCameras;
+
+  final Permission _permission = Permission.camera;
+  bool _checkingPermission = false;
 
   Widget child = const Center(
     child: CupertinoActivityIndicator(color: Colors.white),
@@ -46,15 +51,65 @@ class _CameraViewState extends State<CameraView> {
     });
   }
 
+  Future<void> _checkPermission(Permission permission) async {
+    debugPrint("hello");
+    final status = await permission.request();
+
+    if (status == PermissionStatus.granted) {
+      checkAvailableCameras();
+    } else if (status == PermissionStatus.denied) {
+      await permission.request();
+      setState(() {
+        child = const Center(
+          child: Text("Please allow access to the camera!"),
+        );
+      });
+    } else if (status == PermissionStatus.permanentlyDenied) {
+      setState(() {
+        child = Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Please allow access to the camera!"),
+              const SizedBox(height: 10),
+              TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.purpleAccent),
+                  foregroundColor: MaterialStateProperty.all(Colors.white)
+                ),
+                onPressed: () {
+                  AppSettings.openAppSettings();
+                },
+                child: const Text("Go to Settings")
+              )
+            ],
+          ),
+        );
+      });
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    debugPrint("negawaat");
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed && !_checkingPermission) {
+      _checkingPermission = true;
+      _checkPermission(_permission).then((_) => _checkingPermission = false);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    checkAvailableCameras();
+    _checkPermission(_permission);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     controller.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -98,29 +153,10 @@ class _CameraViewState extends State<CameraView> {
           child = const Center(
             child: CupertinoActivityIndicator(color: Colors.white),
           );
+          return;
         }
         child = cameraViewWidget(camera);
       });
-    }).catchError((Object e) {
-      debugPrint(e.toString());
-      if (e is CameraException) {
-        switch (e.code) {
-          case 'CameraAccessDenied':
-            setState(() {
-              child = const Center(
-                child: Text("Please allow access to the camera!"),
-              );
-            });
-            break;
-          default:
-            setState(() {
-              child = const Center(
-                child: Text("There was an error while loading the camera!"),
-              );
-            });
-            break;
-        }
-      }
     });
   }
 
