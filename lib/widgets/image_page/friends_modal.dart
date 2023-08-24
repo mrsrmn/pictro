@@ -23,7 +23,7 @@ class FriendsModal extends StatefulWidget {
 
 class _FriendsModalState extends State<FriendsModal> {
   bool? isChecked = false;
-  late Future<List<Contact>> availableContacts;
+  late Future<List<Map<String, String>>> availableContacts;
   List<String> selectedNumbers = [];
 
   @override
@@ -69,7 +69,7 @@ class _FriendsModalState extends State<FriendsModal> {
                       );
                     }
 
-                    List<Contact> contacts = snapshot.data;
+                    List<Map<String, String>> contacts = snapshot.data;
 
                     if (contacts.isEmpty) {
                       return const Center(
@@ -85,7 +85,7 @@ class _FriendsModalState extends State<FriendsModal> {
                       itemCount: contacts.length,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
-                        phoneValue = contacts[index].phones![0].value!
+                        phoneValue = contacts[index]["phoneNumber"]!
                             .replaceAll(" ", "")
                             .replaceAll("(", "")
                             .replaceAll(")", "");
@@ -99,7 +99,7 @@ class _FriendsModalState extends State<FriendsModal> {
                             return CheckboxListTile(
                               contentPadding: EdgeInsets.zero,
                               title: Text(
-                                contacts[index].displayName!,
+                                contacts[index]["displayName"]!,
                                 style: const TextStyle(
                                   color: Colors.white
                                 ),
@@ -109,7 +109,7 @@ class _FriendsModalState extends State<FriendsModal> {
                                 HapticFeedback.lightImpact();
                                 setState(() {
                                   isChecked = value;
-                                  phoneValue = contacts[index].phones![0].value!
+                                  phoneValue = contacts[index]["phoneNumber"]!
                                       .replaceAll(" ", "")
                                       .replaceAll("(", "")
                                       .replaceAll(")", "");
@@ -212,15 +212,18 @@ class _FriendsModalState extends State<FriendsModal> {
   }
 
 
-  Future<List<Contact>> getAvailableContacts() async {
+  Future<List<Map<String, String>>> getAvailableContacts() async {
     QuerySnapshot<Map<String, dynamic>> dbUsers = await FirebaseFirestore.instance.collection("users").get();
-    List<Contact> availableContacts = [];
+    List<Map<String, String>> availableContacts = [];
 
     for (var user in dbUsers.docs) {
-      var contact = (await ContactsService.getContactsForPhone(user.id));
+      var contact = await ContactsService.getContactsForPhone(user.id);
 
       if (contact.isNotEmpty) {
-        availableContacts.add(contact[0]);
+        availableContacts.add({
+          "displayName": contact[0].displayName!,
+          "phoneNumber": user.id
+        });
       }
     }
 
