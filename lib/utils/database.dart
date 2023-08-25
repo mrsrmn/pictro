@@ -51,7 +51,7 @@ class Database {
           body: jsonEncode({
             "to": "/topics/${sentTo.replaceAll("+", "")}",
             "notification": {
-              "title": "${user.displayName!} has just shared a new Scribb!",
+              "title": "${user.displayName!} has just shared a new Pictr!",
               "body": "See what they sent you",
             },
           })
