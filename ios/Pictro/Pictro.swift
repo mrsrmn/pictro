@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> PictroEntry {
-        PictroEntry(date: Date(), pictrImage: nil, sentBy: nil)
+        PictroEntry(date: Date(), pictrImage: nil)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (PictroEntry) -> ()) {
@@ -21,9 +21,8 @@ struct Provider: TimelineProvider {
         } else {
             let userDefaults = UserDefaults(suiteName: "group.pictrowidget")
             let pictrUrl = userDefaults?.string(forKey: "pictr_url")
-            let sentBy = userDefaults?.string(forKey: "sent_by")
 
-            entry = PictroEntry(date: Date(), pictrImage: pictrUrl, sentBy: sentBy)
+            entry = PictroEntry(date: Date(), pictrImage: pictrUrl)
         }
         completion(entry)
     }
@@ -31,15 +30,14 @@ struct Provider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         getSnapshot(in: context) { (entry) in
         let timeline = Timeline(entries: [entry], policy: .atEnd)
-              completion(timeline)
-          }
+            completion(timeline)
+        }
     }
 }
 
 struct PictroEntry: TimelineEntry {
     var date: Date
     var pictrImage: String?
-    var sentBy: String?
 }
 
 struct PictroEntryView : View {
@@ -117,10 +115,9 @@ struct NetworkImage: View {
   var body: some View {
 
     Group {
-     if let url = url, let imageData = try? Data(contentsOf: url),
-       let uiImage = UIImage(data: imageData) {
+     if let imageData = try? Data(contentsOf: url!) {
 
-       Image(uiImage: uiImage)
+      Image(uiImage: self.resizeImage(image: UIImage(data: imageData)!, targetSize: CGSizeMake(170, 170))!)
          .resizable()
          .aspectRatio(contentMode: .fit)
          .clipShape(ContainerRelativeShape())
@@ -141,5 +138,28 @@ struct NetworkImage: View {
       }
     }
   }
+    
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        
+        let rect = CGRect(origin: .zero, size: newSize)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
 
 }
