@@ -37,7 +37,7 @@ class Authentication extends GetxController {
 
       return credential.user != null ? AuthValues.success : AuthValues.error;
     } on FirebaseAuthException catch (e, _) {
-      debugPrint(e.code);
+      Get.snackbar("title", e.toString());
 
       if (e.code == "unknown") {
         return AuthValues.unknown;
