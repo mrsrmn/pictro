@@ -164,7 +164,7 @@ class _FriendsModalState extends State<FriendsModal> {
                           }
                           Get.snackbar(
                             "Error!",
-                            "We couldn't send your Scribb's!",
+                            "We couldn't send your Pictr!",
                             colorText: Colors.white,
                             icon: const Icon(Icons.warning_amber, color: Colors.red),
                             shouldIconPulse: false
@@ -183,7 +183,7 @@ class _FriendsModalState extends State<FriendsModal> {
 
                           Get.snackbar(
                             "Success!",
-                            "You successfully sent your Scribb to ${selectedNumbers.length} friends!",
+                            "You successfully sent your Pictr to ${selectedNumbers.length} friends!",
                             colorText: Colors.white,
                             icon: const Icon(Icons.verified_outlined, color: Colors.green)
                           );
@@ -191,7 +191,7 @@ class _FriendsModalState extends State<FriendsModal> {
                       } else {
                         Get.snackbar(
                           "Error!",
-                          "Please select at least 1 person to send your Scribb to!",
+                          "Please select at least 1 person to send your Pictr to!",
                           colorText: Colors.white,
                           icon: const Icon(Icons.warning_amber, color: Colors.red),
                           shouldIconPulse: false
