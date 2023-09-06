@@ -69,6 +69,7 @@ struct PictroEntryView : View {
             if (entry.pictrImage == nil) {
                 Text("Nothing yet!")
                   .font(Font.custom("Geologica Roman", size: 18).weight(.medium))
+                  .foregroundColor(.white)
             } else {
                 NetworkImage(url: URL(string: entry.pictrImage!))
                     .padding(7)

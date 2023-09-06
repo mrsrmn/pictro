@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:pictro/bloc/register/register_bloc.dart';
 
@@ -55,5 +57,24 @@ class Utils {
     final bool result = await platformChannel.invokeMethod("getWidgetStatus");
 
     return result;
+  }
+
+  static updateWidgetForImage() async {
+    DocumentReference doc = FirebaseFirestore.instance.collection("users").doc(
+      FirebaseAuth.instance.currentUser!.phoneNumber!
+    ).collection("private").doc("data");
+
+    List? receivedPictrs = ((await doc.get()).data()! as Map<String, dynamic>)["receivedPictrs"];
+
+    if (receivedPictrs == null) {
+      Utils.updateWidget(null, null);
+    } else if (receivedPictrs.isNotEmpty) {
+      Utils.updateWidget(
+        receivedPictrs.last["url"],
+        receivedPictrs.last["sentBy"]
+      );
+    } else {
+      Utils.updateWidget(null, null);
+    }
   }
 }

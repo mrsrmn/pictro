@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:home_widget/home_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:pictro/widgets/home_page/home_topbar.dart';
@@ -11,28 +9,6 @@ import 'package:pictro/widgets/home_page/received_pictrs/received_pictr_view.dar
 import 'package:pictro/widgets/home_page/camera_view.dart';
 import 'package:pictro/widgets/home_page/widget_usage_alert.dart';
 import 'package:pictro/utils/utils.dart';
-
-const String appGroupId = "group.pictrowidget";
-
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  DocumentReference doc = FirebaseFirestore.instance.collection("users").doc(
-    FirebaseAuth.instance.currentUser!.phoneNumber!
-  ).collection("private").doc("data");
-
-  List? receivedPictrs = ((await doc.get()).data()! as Map<String, dynamic>)["receivedPictrs"];
-
-  if (receivedPictrs == null) {
-    Utils.updateWidget(null, null);
-  } else if (receivedPictrs.isNotEmpty) {
-    Utils.updateWidget(
-      receivedPictrs.last["url"],
-      receivedPictrs.last["sentBy"]
-    );
-  } else {
-    Utils.updateWidget(null, null);
-  }
-}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -62,15 +38,18 @@ class _HomePageState extends State<HomePage> {
     FirebaseMessaging.instance.subscribeToTopic(
       FirebaseAuth.instance.currentUser!.phoneNumber!.replaceAll("+", "")
     );
-    FirebaseMessaging.onMessage.listen(_firebaseMessagingBackgroundHandler);
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      Utils.updateWidgetForImage();
+    });
   }
 
   @override
   void initState() {
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     super.initState();
 
-    HomeWidget.setAppGroupId(appGroupId);
+    Utils.updateWidgetForImage();
+
     requestContactPermission();
     setupCloudMessaging();
   }
@@ -82,7 +61,7 @@ class _HomePageState extends State<HomePage> {
         decoration: const BoxDecoration(
           color: Colors.black87
         ),
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
         child: const Column(
           children: [
             HomeTopBar(),

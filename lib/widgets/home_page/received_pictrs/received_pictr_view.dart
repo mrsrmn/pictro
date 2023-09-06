@@ -20,7 +20,7 @@ class _ReceivedPictrsViewState extends State<ReceivedPictrsView> {
   Future<List?> getReceivedPictrs() async {
     try {
       DocumentReference doc = FirebaseFirestore.instance.collection("users").doc(
-          FirebaseAuth.instance.currentUser!.phoneNumber!
+        FirebaseAuth.instance.currentUser!.phoneNumber!
       ).collection("private").doc("data");
 
       List receivedPictrs = ((await doc.get()).data()! as Map<String, dynamic>)["receivedPictrs"];
@@ -116,12 +116,17 @@ class _ReceivedPictrsViewState extends State<ReceivedPictrsView> {
         return SingleChildScrollView(
           child: SizedBox(
             width: double.infinity,
-            child: Wrap(
-              alignment: WrapAlignment.start,
-              runAlignment: WrapAlignment.start,
-              runSpacing: 10,
-              spacing: 10,
-              children: pictrsView,
+            child: SafeArea(
+              left: false,
+              right: false,
+              top: false,
+              child: Wrap(
+                alignment: WrapAlignment.start,
+                runAlignment: WrapAlignment.start,
+                runSpacing: 10,
+                spacing: 10,
+                children: pictrsView,
+              ),
             ),
           ),
         );

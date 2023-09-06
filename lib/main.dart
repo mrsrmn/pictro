@@ -9,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'package:pictro/pages/main_pages/home_page/home_page.dart';
 import 'package:pictro/pages/main_pages/start_page.dart';
@@ -16,9 +18,24 @@ import 'package:pictro/utils/auth.dart';
 import 'package:pictro/utils/constants.dart';
 import 'package:pictro/firebase_options.dart';
 import 'package:pictro/injection_container.dart' as sl;
+import 'package:pictro/utils/utils.dart';
+
+const String appGroupId = "group.pictrowidget";
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(
+    name: "pictro",
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  Utils.updateWidgetForImage();
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  HomeWidget.setAppGroupId(appGroupId);
 
   // Initialize Injection Container
   await sl.init();
@@ -29,12 +46,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  Get.put(Authentication());
+
   await FirebaseAppCheck.instance.activate(
     androidProvider: kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
     appleProvider: AppleProvider.deviceCheck,
   );
-
-  Get.put(Authentication());
 
   var currentUser = FirebaseAuth.instance.currentUser;
 
@@ -48,6 +65,8 @@ void main() async {
   if (Platform.isAndroid) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
   }
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   if (currentUser != null && currentUser.displayName != null) {
     runApp(const MyApp(home: HomePage()));
@@ -66,7 +85,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: "Pictro",
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black87, secondary: Colors.black),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.black87,
+          secondary: Colors.black,
+        ),
         useMaterial3: true,
         dialogTheme: const DialogTheme(
           contentTextStyle: TextStyle(color: Colors.black),

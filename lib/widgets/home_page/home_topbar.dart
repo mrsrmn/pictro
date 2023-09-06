@@ -63,7 +63,7 @@ class _HomeTopBarState extends State<HomeTopBar> {
                     showAboutDialog(
                       context: context,
                       applicationLegalese: "© 2023 Emir Sürmen",
-                      applicationVersion: "1.0.0"
+                      applicationVersion: "1.0.1"
                     );
                   },
                   child: PictroName(fontSize: 25)

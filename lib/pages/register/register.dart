@@ -26,7 +26,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
 
   final Region region = Region();
 
@@ -49,7 +49,7 @@ class _RegisterState extends State<Register> {
               children: [
                 const Text("Phone Number", style: TextStyle(color: Colors.white, fontSize: 23), textAlign: TextAlign.center),
                 const SizedBox(height: 10),
-                PhoneField(controller: _controller),
+                PhoneField(controller: controller),
                 const SizedBox(height: 10),
                 CheckboxListTile(
                   title: ExcludeSemantics(
@@ -99,7 +99,7 @@ class _RegisterState extends State<Register> {
                       );
                       return;
                     }
-                    bloc.add(RegisterValidateNumber(value: _controller.text));
+                    bloc.add(RegisterValidateNumber(value: controller.text));
                   },
                   backgroundColor: Colors.purple.shade500,
                   child: BlocBuilder(
@@ -118,7 +118,7 @@ class _RegisterState extends State<Register> {
                       } else if (state is RegisterPhoneValid) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           try {
-                            Authentication.instance.sendSMS(_controller.text);
+                            Authentication.instance.sendSMS(controller.text);
                           } catch (e) {
                             print(e.toString());
                           }
