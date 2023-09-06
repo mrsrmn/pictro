@@ -69,7 +69,8 @@ class _HomePageState extends State<HomePage> {
             WidgetUsageAlert(),
             SizedBox(height: 10),
             CameraView(),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
+            Divider(height: 1, thickness: 1),
             Expanded(child: ReceivedPictrsView())
           ],
         ),

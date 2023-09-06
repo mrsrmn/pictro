@@ -120,12 +120,17 @@ class _ReceivedPictrsViewState extends State<ReceivedPictrsView> {
               left: false,
               right: false,
               top: false,
-              child: Wrap(
-                alignment: WrapAlignment.start,
-                runAlignment: WrapAlignment.start,
-                runSpacing: 10,
-                spacing: 10,
-                children: pictrsView,
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Wrap(
+                    alignment: WrapAlignment.start,
+                    runAlignment: WrapAlignment.start,
+                    runSpacing: 10,
+                    spacing: 10,
+                    children: pictrsView,
+                  ),
+                ],
               ),
             ),
           ),
