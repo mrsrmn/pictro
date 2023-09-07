@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     );
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      Utils.updateWidgetForImage();
+      Utils.updateWidgetForImage(message: message);
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
@@ -59,22 +60,29 @@ class Utils {
     return result;
   }
 
-  static updateWidgetForImage() async {
-    DocumentReference doc = FirebaseFirestore.instance.collection("users").doc(
-      FirebaseAuth.instance.currentUser!.phoneNumber!
-    ).collection("private").doc("data");
-
-    List? receivedPictrs = ((await doc.get()).data()! as Map<String, dynamic>)["receivedPictrs"];
-
-    if (receivedPictrs == null) {
-      Utils.updateWidget(null, null);
-    } else if (receivedPictrs.isNotEmpty) {
+  static updateWidgetForImage({RemoteMessage? message}) async {
+    if (message != null) {
       Utils.updateWidget(
-        receivedPictrs.last["url"],
-        receivedPictrs.last["sentBy"]
+        message.data["url"],
+        message.data["sentBy"]
       );
     } else {
-      Utils.updateWidget(null, null);
+      DocumentReference doc = FirebaseFirestore.instance.collection("users").doc(
+        FirebaseAuth.instance.currentUser!.phoneNumber!
+      ).collection("private").doc("data");
+
+      List? receivedPictrs = ((await doc.get()).data()! as Map<String, dynamic>)["receivedPictrs"];
+
+      if (receivedPictrs == null) {
+        Utils.updateWidget(null, null);
+      } else if (receivedPictrs.isNotEmpty) {
+        Utils.updateWidget(
+          receivedPictrs.last["url"],
+          receivedPictrs.last["sentBy"]
+        );
+      } else {
+        Utils.updateWidget(null, null);
+      }
     }
   }
 }

@@ -29,7 +29,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  Utils.updateWidgetForImage();
+  Utils.updateWidgetForImage(message: message);
 }
 
 void main() async {
