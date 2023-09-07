@@ -53,10 +53,13 @@ class Database {
             "notification": {
               "title": "${user.displayName!} has just shared a new Pictr!",
               "body": "See what they sent you",
-              "content_available": true,
-              "priority": "high",
+              "content_available": true
             },
-            "content_available": true,
+            "data": {
+              "url": downloadUrl,
+              "sentBy": number,
+              "content_available": true,
+            },
             "priority": "high",
           })
         );
