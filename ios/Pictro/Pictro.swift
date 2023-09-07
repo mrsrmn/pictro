@@ -117,13 +117,11 @@ struct NetworkImage: View {
 
     Group {
      if let imageData = try? Data(contentsOf: url!) {
-
-      Image(uiImage: UIImage(data: imageData)!)
-         .resizable()
-         .aspectRatio(contentMode: .fit)
-         .clipShape(ContainerRelativeShape())
-      }
-      else {
+         Image(uiImage: self.resizeImage(image: UIImage(data: imageData)!, targetSize: CGSize(width: 500, height: 500))!)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .clipShape(ContainerRelativeShape())
+      } else {
           LinearGradient(
             colors: [
                 Color(hex: 0xFFAB47BC),
