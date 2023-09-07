@@ -43,6 +43,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   app_settings: ^5.0.0
   url_launcher: ^6.1.12
+  liquid_pull_to_refresh: ^3.0.1
 
 dev_dependencies:
   flutter_test:
