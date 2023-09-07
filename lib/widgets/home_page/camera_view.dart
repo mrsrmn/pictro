@@ -261,7 +261,7 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: IconButton(
-                      onPressed: () {
+                      onPressed: () async {
                         HapticFeedback.lightImpact();
                         controller.takePicture().then((XFile selectedImage) async {
                           int imageWidth = 300;
