@@ -118,7 +118,7 @@ struct NetworkImage: View {
     Group {
      if let imageData = try? Data(contentsOf: url!) {
 
-      Image(uiImage: self.resizeImage(image: UIImage(data: imageData)!, targetSize: CGSizeMake(170, 170))!)
+      Image(uiImage: UIImage(data: imageData)!)
          .resizable()
          .aspectRatio(contentMode: .fit)
          .clipShape(ContainerRelativeShape())
