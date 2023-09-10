@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:pictro/pages/main_pages/home_page/account_page.dart';
+import 'package:pictro/utils/constants.dart';
 import 'package:pictro/widgets/pictro_name.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -63,7 +66,7 @@ class _HomeTopBarState extends State<HomeTopBar> {
                     showAboutDialog(
                       context: context,
                       applicationLegalese: "© 2023 Emir Sürmen",
-                      applicationVersion: "1.0.1"
+                      applicationVersion: Platform.isAndroid ? kAndroidVersion : kIOSVersion
                     );
                   },
                   child: PictroName(fontSize: 25)
