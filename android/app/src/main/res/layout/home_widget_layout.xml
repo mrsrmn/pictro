@@ -3,8 +3,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/widget_background"
     android:id="@+id/widget_container">
+
+    <TextView
+        android:id="@+id/default_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#E9E9E9"
+        tools:text="Nothing yet!" />
 
     <ImageView
         android:id="@+id/scribb_view"
