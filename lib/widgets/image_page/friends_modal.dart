@@ -22,9 +22,9 @@ class FriendsModal extends StatefulWidget {
 }
 
 class _FriendsModalState extends State<FriendsModal> {
-  bool? isChecked = false;
   late Future<List<Map<String, String>>> availableContacts;
   List<String> selectedNumbers = [];
+  late List<bool?> isCheckedList;
 
   @override
   void initState() {
@@ -77,6 +77,8 @@ class _FriendsModalState extends State<FriendsModal> {
                       );
                     }
 
+                    isCheckedList = List.generate(contacts.length, (index) => false);
+
                     String currentNumber = FirebaseAuth.instance.currentUser!.phoneNumber!;
                     String phoneValue;
 
@@ -86,9 +88,9 @@ class _FriendsModalState extends State<FriendsModal> {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         phoneValue = contacts[index]["phoneNumber"]!
-                            .replaceAll(" ", "")
-                            .replaceAll("(", "")
-                            .replaceAll(")", "");
+                          .replaceAll(" ", "")
+                          .replaceAll("(", "")
+                          .replaceAll(")", "");
 
                         if (phoneValue == currentNumber) {
                           return const SizedBox();
@@ -104,21 +106,22 @@ class _FriendsModalState extends State<FriendsModal> {
                                   color: Colors.white
                                 ),
                               ),
-                              value: isChecked,
+                              value: isCheckedList[index],
                               onChanged: (bool? value) {
                                 HapticFeedback.lightImpact();
                                 setState(() {
-                                  isChecked = value;
+                                  isCheckedList[index] = value;
                                   phoneValue = contacts[index]["phoneNumber"]!
-                                      .replaceAll(" ", "")
-                                      .replaceAll("(", "")
-                                      .replaceAll(")", "");
+                                    .replaceAll(" ", "")
+                                    .replaceAll("(", "")
+                                    .replaceAll(")", "");
                                 });
-                                if (isChecked!) {
+                                if (isCheckedList[index]!) {
                                   selectedNumbers.add(phoneValue);
                                 } else {
                                   selectedNumbers.remove(phoneValue);
                                 }
+                                print(selectedNumbers);
                               },
                             );
                           }
