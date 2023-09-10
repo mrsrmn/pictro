@@ -23,8 +23,8 @@ class FriendsModal extends StatefulWidget {
 
 class _FriendsModalState extends State<FriendsModal> {
   late Future<List<Map<String, String>>> availableContacts;
-  List<String> selectedNumbers = [];
   late List<bool?> isCheckedList;
+  List<String> selectedNumbers = [];
 
   @override
   void initState() {
@@ -121,7 +121,6 @@ class _FriendsModalState extends State<FriendsModal> {
                                 } else {
                                   selectedNumbers.remove(phoneValue);
                                 }
-                                print(selectedNumbers);
                               },
                             );
                           }
