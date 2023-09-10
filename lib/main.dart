@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:device_info/device_info.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,9 +56,14 @@ void main() async {
 
   var currentUser = FirebaseAuth.instance.currentUser;
 
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  final version = (await deviceInfoPlugin.androidInfo).version;
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    systemNavigationBarColor: Colors.transparent,
+    systemNavigationBarColor: version.sdkInt <= 31
+      ? Colors.black87
+      : Colors.transparent,
     statusBarBrightness: Brightness.dark,
     statusBarIconBrightness: Brightness.light,
   ));
