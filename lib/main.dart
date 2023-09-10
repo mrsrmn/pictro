@@ -56,14 +56,9 @@ void main() async {
 
   var currentUser = FirebaseAuth.instance.currentUser;
 
-  DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  final version = (await deviceInfoPlugin.androidInfo).version;
-
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    systemNavigationBarColor: version.sdkInt <= 31
-      ? Colors.black87
-      : Colors.transparent,
+    systemNavigationBarColor: await systemNavigationBarColor(),
     statusBarBrightness: Brightness.dark,
     statusBarIconBrightness: Brightness.light,
   ));
@@ -78,6 +73,19 @@ void main() async {
     runApp(const MyApp(home: HomePage()));
   } else {
     runApp(const MyApp(home: StartPage()));
+  }
+}
+
+Future<Color> systemNavigationBarColor() async {
+  if (Platform.isAndroid) {
+    DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    final version = (await deviceInfoPlugin.androidInfo).version;
+
+    return version.sdkInt <= 31
+      ? Colors.black87
+      : Colors.transparent;
+  } else {
+    return Colors.transparent;
   }
 }
 
