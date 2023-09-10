@@ -149,6 +149,7 @@ class _ReceivedPictrsViewState extends State<ReceivedPictrsView> {
                 right: false,
                 top: false,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 10),
                     Wrap(
