@@ -2,7 +2,7 @@ name: pictro
 description: Connect with loved ones through art, without leaving your homescreen.
 publish_to: 'none'
 
-version: 1.0.2+1
+version: 1.0.2+4
 
 environment:
   sdk: '>=3.0.5 <4.0.0'
